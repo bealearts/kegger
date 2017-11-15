@@ -1,0 +1,21 @@
+{
+  "name": "kegger",
+  "version": "0.0.0",
+  "description": "Homebrew update tray icon",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "package": "electron-packager ./ --platform=darwin --arch=x64 --out=out --icon=./icon.icns --overwrite"
+  },
+  "keywords": [
+    "homebrew",
+    "osx",
+    "brew"
+  ],
+  "author": "David Beale",
+  "license": "MIT",
+  "devDependencies": {
+    "electron-packager": "^9.1.0",
+    "electron-prebuilt": "^1.4.13"
+  }
+}
