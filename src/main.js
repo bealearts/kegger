@@ -1,7 +1,7 @@
-const { app, BrowserWindow, ipcMain, Tray, Menu } = require('electron')
-const path = require('path')
+const { app, BrowserWindow } = require('electron');
+const path = require('path');
 
-const assetsDirectory = path.join(__dirname, '../assets');
+const createTray = require('./tray/createTray');
 
 let tray = null;
 let window = null;
@@ -10,37 +10,16 @@ let window = null;
 app.dock.hide()
 
 app.on('ready', () => {
-  createTray()
-  // createWindow()
+    tray = createTray()
+    // createWindow()
 })
 
 // Quit the app when the window is closed
 app.on('window-all-closed', () => {
-  app.quit()
+    app.quit()
 })
 
-const createTray = () => {
-  tray = new Tray(path.join(assetsDirectory, 'sunTemplate.png'));
-  const contextMenu = Menu.buildFromTemplate([
-    {label: 'Item1', type: 'radio'},
-    {label: 'Item2', type: 'radio'},
-    {label: 'Item3', type: 'radio', checked: true},
-    {label: 'Item4', type: 'radio'}
-]);
-  tray.setToolTip('This is my application.');
-  tray.setContextMenu(contextMenu);
 
-  // tray.on('right-click', toggleWindow)
-  // tray.on('double-click', toggleWindow)
-  // tray.on('click', function (event) {
-  //   toggleWindow()
-  //
-  //   // Show devtools when command clicked
-  //   if (window.isVisible() && process.defaultApp && event.metaKey) {
-  //     window.openDevTools({mode: 'detach'})
-  //   }
-  // })
-}
 
 const getWindowPosition = () => {
   const windowBounds = window.getBounds()
