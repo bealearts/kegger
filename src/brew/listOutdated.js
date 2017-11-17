@@ -10,7 +10,7 @@ module.exports = function listOutdated() {
         const [ name, version, nq, available ] = line.split(' ');
         return {
             name,
-            version: version.substr(1, version.length-2),
+            current: version.substr(1, version.length-2),
             available
         }
     })));

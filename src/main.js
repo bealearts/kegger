@@ -3,6 +3,7 @@ const path = require('path');
 
 const createTray = require('./tray/createTray');
 const checkForUpdates = require('./brew/checkForUpdates');
+const createTrayMenu = require('./tray/createTrayMenu');
 
 let tray = null;
 let window = null;
@@ -31,7 +32,7 @@ app.setAboutPanelOptions({
 
 
 checkForUpdates()
-    .then(console.log)
+    .then(updates => tray.setContextMenu(createTrayMenu(updates)))
     .catch(console.error);
 
 
