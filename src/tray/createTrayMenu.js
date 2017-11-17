@@ -1,10 +1,14 @@
 const { Menu } = require('electron');
+const path = require('path');
 
-module.exports = function createTrayMenu(updates = []) {
+const assetsDirectory = path.join(__dirname, '../../assets');
+
+module.exports = function createTrayMenu(updates = [1]) {
     const hasUpdates = updates.length !== 0;
+    const optionsMenu = hasUpdates ? createUpdatesMenuTemplate(updates) : null;
 
     const contextMenu = Menu.buildFromTemplate([
-      {label: '0 Updates Available', enabled: hasUpdates},
+      {label: '0 Updates Available', submenu: optionsMenu, enabled: hasUpdates},
       {label: 'Update All', enabled: hasUpdates},
       {type: 'separator'},
       {label: 'Preferences...'},
@@ -14,4 +18,12 @@ module.exports = function createTrayMenu(updates = []) {
     ]);
 
     return contextMenu;
+}
+
+
+function createUpdatesMenuTemplate(updates = []) {
+    return [
+        {label: 'Git 1.9 > 2.0', icon: path.join(assetsDirectory, 'sunTemplate.png')}
+    ];
+    //return updates.map();
 }

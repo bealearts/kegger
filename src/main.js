@@ -2,6 +2,7 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 
 const createTray = require('./tray/createTray');
+const checkForUpdates = require('./brew/checkForUpdates');
 
 let tray = null;
 let window = null;
@@ -14,11 +15,24 @@ app.on('ready', () => {
     // createWindow()
 })
 
+
+if (app.makeSingleInstance(() => false)) {
+    app.quit();
+}
+
 // Quit the app when the window is closed
 app.on('window-all-closed', () => {
     app.quit()
 })
 
+app.setAboutPanelOptions({
+    applicationName: 'Kegger - Join the party'
+});
+
+
+checkForUpdates()
+    .then(console.log)
+    .catch(console.error);
 
 
 const getWindowPosition = () => {
