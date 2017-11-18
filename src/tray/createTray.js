@@ -6,7 +6,7 @@ const createTrayMenu = require('./createTrayMenu');
 const assetsDirectory = path.join(__dirname, '../../assets');
 
 module.exports = function createTray() {
-    const tray = new Tray(path.join(assetsDirectory, 'sunTemplate.png'));
+    const tray = new Tray(path.join(assetsDirectory, 'kegTemplate.png'));
     tray.setToolTip('Kegger - Join the party');
     tray.setContextMenu(createTrayMenu());
 
