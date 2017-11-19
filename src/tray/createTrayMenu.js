@@ -3,8 +3,6 @@ const path = require('path');
 
 const execUpdate = require('../brew/execUpdate');
 
-const assetsDirectory = path.join(__dirname, '../assets');
-
 module.exports = function createTrayMenu(updates = {brew: [], cask: []}) {
     const count = updates.brew.length + updates.cask.length;
     const hasUpdates = count !== 0;

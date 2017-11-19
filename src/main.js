@@ -2,11 +2,12 @@ const { app } = require('electron');
 const path = require('path');
 
 const createTray = require('./tray/createTray');
-const checkForUpdates = require('./brew/checkForUpdates');
 const createTrayMenu = require('./tray/createTrayMenu');
+const createTrayIcon = require('./tray/createTrayIcon');
+const checkForUpdates = require('./brew/checkForUpdates');
 
 let tray = null;
-
+let trayIcon = null;
 
 app.dock.hide()
 
@@ -16,7 +17,8 @@ if (app.makeSingleInstance(() => false)) {
 
 
 app.on('ready', () => {
-    tray = createTray();
+    trayIcon = createTrayIcon();
+    tray = createTray(trayIcon);
     update(true)
         .then(update);
 
@@ -35,6 +37,11 @@ app.setAboutPanelOptions({
 
 function update(skipBrewUpdate = false) {
     return checkForUpdates(skipBrewUpdate)
-        .then(updates => tray.setContextMenu(createTrayMenu(updates)))
+        .then(updates => {
+            const count = updates.brew.length + updates.cask.length;
+            trayIcon.setTemplateImage(count === 0);
+            tray.setImage(trayIcon);
+            tray.setContextMenu(createTrayMenu(updates));
+        })
         .catch(console.error);
 }
