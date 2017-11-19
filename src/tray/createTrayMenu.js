@@ -1,14 +1,17 @@
 const { Menu } = require('electron');
 const path = require('path');
 
-const assetsDirectory = path.join(__dirname, '../../assets');
+const execUpdate = require('../brew/execUpdate');
 
-module.exports = function createTrayMenu(updates = []) {
-    const hasUpdates = updates.length !== 0;
+const assetsDirectory = path.join(__dirname, '../assets');
+
+module.exports = function createTrayMenu(updates = {brew: [], cask: []}) {
+    const count = updates.brew.length + updates.cask.length;
+    const hasUpdates = count !== 0;
     const optionsMenu = hasUpdates ? createUpdatesMenuTemplate(updates) : null;
 
     const contextMenu = Menu.buildFromTemplate([
-      {label: `${updates.length} Updates Available`, submenu: optionsMenu, enabled: hasUpdates},
+      {label: `${count} Updates Available`, submenu: optionsMenu, enabled: hasUpdates},
       {label: 'Update All', enabled: hasUpdates},
       {type: 'separator'},
       {label: 'Preferences...'},
@@ -21,8 +24,17 @@ module.exports = function createTrayMenu(updates = []) {
 }
 
 
-function createUpdatesMenuTemplate(updates = []) {
-    return updates.map(update => ({
-        label: `${update.name} (${update.current} -> ${update.available})`
+function createUpdatesMenuTemplate(updates = {brew: [], cask: []}) {
+    const brewItems = updates.brew.map(update => ({
+        label: `${update.name} (${update.current} -> ${update.available})`,
+        click: () => execUpdate(update.name)
     }));
+
+    const caskItems = updates.cask.map(update => ({
+        label: `${update.name} (${update.current} -> ${update.available})`,
+        click: () => execUpdate(update.name)
+    }));
+
+    const sep = brewItems.length !== 0 && caskItems.length !== 0 ? [{type: 'separator'}] : [];
+    return brewItems.concat(sep.concat(caskItems));
 }

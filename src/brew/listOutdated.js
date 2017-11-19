@@ -2,16 +2,22 @@ const execBrew = require('./execBrew');
 
 module.exports = function listOutdated() {
     return Promise.all([
-        execBrew('outdated --verbose'),
-        execBrew('cask outdated --verbose'),
+        execBrew('outdated --verbose')
+            .then(parse(false)),
+        execBrew('cask outdated --verbose')
+            .then(parse(true)),,
     ])
-    .then(results => [...results[0], ...results[1]])
-    .then(list => list.map((line => {
-        const [ name, version, nq, available ] = line.split(' ');
+    .then(results => ({brew: results[0], cask: results[1]}));
+}
+
+function parse(isCask) {
+    return rows => rows.map((row => {
+        const [ name, version, nq, available ] = row.split(' ');
         return {
             name,
             current: version.substr(1, version.length-2),
-            available
+            available,
+            isCask
         }
-    })));
+    }));
 }

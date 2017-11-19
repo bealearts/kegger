@@ -16,7 +16,11 @@ if (app.makeSingleInstance(() => false)) {
 
 
 app.on('ready', () => {
-    tray = createTray()
+    tray = createTray();
+    update(true)
+        .then(update);
+
+    setInterval(update, 60 * 60 * 1000);
 })
 
 
@@ -34,8 +38,3 @@ function update(skipBrewUpdate = false) {
         .then(updates => tray.setContextMenu(createTrayMenu(updates)))
         .catch(console.error);
 }
-
-update(true)
-    .then(update);
-
-setInterval(update, 60 * 60 * 1000);

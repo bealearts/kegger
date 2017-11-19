@@ -3,7 +3,7 @@ const path = require('path');
 
 const createTrayMenu = require('./createTrayMenu');
 
-const assetsDirectory = path.join(__dirname, '../../assets');
+const assetsDirectory = path.join(__dirname, '../assets');
 
 module.exports = function createTray() {
     const tray = new Tray(path.join(assetsDirectory, 'kegTemplate.png'));
