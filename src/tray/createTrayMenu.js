@@ -12,7 +12,7 @@ module.exports = function createTrayMenu(updates = {brew: [], cask: []}) {
 
     const contextMenu = Menu.buildFromTemplate([
       {label: `${count} Updates Available`, submenu: optionsMenu, enabled: hasUpdates},
-      {label: 'Update All', enabled: hasUpdates},
+      {label: 'Update All', enabled: hasUpdates, click: () => execUpdate(updates)},
       {type: 'separator'},
       {label: 'Preferences...'},
       {label: 'About', role: "about"},
@@ -27,12 +27,12 @@ module.exports = function createTrayMenu(updates = {brew: [], cask: []}) {
 function createUpdatesMenuTemplate(updates = {brew: [], cask: []}) {
     const brewItems = updates.brew.map(update => ({
         label: `${update.name} (${update.current} -> ${update.available})`,
-        click: () => execUpdate(update.name)
+        click: () => execUpdate({brew: [update], cask: []})
     }));
 
     const caskItems = updates.cask.map(update => ({
         label: `${update.name} (${update.current} -> ${update.available})`,
-        click: () => execUpdate(update.name)
+        click: () => execUpdate({brew: [], cask: [update]})
     }));
 
     const sep = brewItems.length !== 0 && caskItems.length !== 0 ? [{type: 'separator'}] : [];
