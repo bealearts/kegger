@@ -35,10 +35,10 @@ app.on('window-all-closed', () => {
     app.quit()
 })
 
-app.on('error', log.error);
+process.on('error', log.error);
 
-app.pn('close', () => {
-    log.info('App closed');
+app.pn('quit', () => {
+    log.info('App exited');
 })
 
 app.setAboutPanelOptions({

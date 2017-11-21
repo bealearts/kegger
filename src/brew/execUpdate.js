@@ -10,7 +10,16 @@ const updateScript = path.join(__dirname, '../bin/update.sh');
 module.exports = function execUpdate(updates) {
     log.info('Executing an Update');
     fs.writeFile(updateScript, createScript(updates))
-        .then(() => exec(`open -b com.apple.terminal ${updateScript} -F`))
+        .then(() => exec(`open -b com.apple.terminal ${updateScript} -F`, (error, stdout, stderr) => {
+            if (error) {
+                log.error(error);
+                log.error(stderr);
+                return reject(error);
+            }
+
+            log.info('Executed Update');
+            return;
+        }))
         .then(checkForUpdates);
 }
 
