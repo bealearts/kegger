@@ -1,12 +1,14 @@
 const { exec } = require('child_process');
 const path = require('path');
 const fs = require('fs-extra');
+const log = require('electron-log');
 
 const checkForUpdates = require('./checkForUpdates');
 
 const updateScript = path.join(__dirname, '../bin/update.sh');
 
 module.exports = function execUpdate(updates) {
+    log.info('Executing an Update');
     fs.writeFile(updateScript, createScript(updates))
         .then(() => exec(`open -b com.apple.terminal ${updateScript} -F`))
         .then(checkForUpdates);

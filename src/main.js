@@ -6,17 +6,22 @@ const createTrayMenu = require('./tray/createTrayMenu');
 const createTrayIcon = require('./tray/createTrayIcon');
 const checkForUpdates = require('./brew/checkForUpdates');
 
+const log = require('electron-log');
+log.transports.file.level = 'info';
+
 let tray = null;
 let trayIcon = null;
 
 app.dock.hide()
 
 if (app.makeSingleInstance(() => false)) {
+    log.warn('Closing as App already running');
     app.quit();
 }
 
 
 app.on('ready', () => {
+    log.info('App running');
     trayIcon = createTrayIcon();
     tray = createTray(trayIcon);
     update(true)
@@ -30,12 +35,19 @@ app.on('window-all-closed', () => {
     app.quit()
 })
 
+app.on('error', log.error);
+
+app.pn('close', () => {
+    log.info('App closed');
+})
+
 app.setAboutPanelOptions({
     applicationName: 'Kegger - Join the party'
 });
 
 
 function update(skipBrewUpdate = false) {
+    log.info('Performing update check');
     return checkForUpdates(skipBrewUpdate)
         .then(updates => {
             const count = updates.brew.length + updates.cask.length;
@@ -43,5 +55,5 @@ function update(skipBrewUpdate = false) {
             tray.setImage(trayIcon);
             tray.setContextMenu(createTrayMenu(updates));
         })
-        .catch(console.error);
+        .catch(log.error);
 }
