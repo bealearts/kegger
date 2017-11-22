@@ -1,23 +1,28 @@
 import execBrew from './execBrew';
 
-export default function listOutdated() {
-    return Promise.all([
+export default async function listUpdates() {
+    const pinned = execBrew('list --pinned');
+    const [brew, cask] = await Promise.all([
         execBrew('outdated --verbose')
-            .then(parse(false)),
+            .then(parse(pinned)),
         execBrew('cask outdated --verbose')
-            .then(parse(true))
-    ])
-        .then(results => ({ brew: results[0], cask: results[1] }));
+            .then(parse(pinned))
+    ]);
+
+    return {
+        brew,
+        cask
+    };
 }
 
-function parse(isCask) {
+function parse(pinned) {
     return rows => rows.map(((row) => {
         const [name, version, nq, available] = row.split(' ');
         return {
             name,
             current: version.substr(1, version.length - 2),
             available,
-            isCask
+            isPinned: pinned.some(pin => pin === name)
         };
     }));
 }

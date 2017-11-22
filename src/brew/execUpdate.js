@@ -25,8 +25,8 @@ export default function execUpdate(updates) {
 const createScript = ({ brew, cask }) => `#!/bin/bash
 echo Kegger - Join the party
 echo
-${brew.length !== 0 ? `brew upgrade ${brew.map(update => update.name).join(' ')}` : ''}
-${cask.length !== 0 ? `brew cask install --force ${cask.map(update => update.name).join(' ')}` : ''}
+${brew.length !== 0 ? `brew upgrade ${brew.filter(update => !update.isPinned).map(update => update.name).join(' ')}` : ''}
+${cask.length !== 0 ? `brew cask install --force ${cask.filter(update => !update.isPinned).map(update => update.name).join(' ')}` : ''}
 echo
 echo Updated Finished - There may be further instructions listed above
 read -n 1 -s -r -p "Press any key to close"

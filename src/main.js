@@ -27,14 +27,6 @@ app.on('ready', () => {
         .then(update);
 
     setInterval(update, 60 * 60 * 1000);
-
-    // app.getFileIcon('/Applications/VLC.app', (error, image) => {
-    //     if (error) {
-    //         return log.warn(error);
-    //     }
-
-        // tray.setImage(nativeImage.createFromPath('./vlc.png'));
-    // });
 })
 
 

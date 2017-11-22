@@ -1,5 +1,4 @@
 import { Menu } from 'electron';
-import path from 'path';
 
 import execUpdate from '../brew/execUpdate';
 
@@ -22,17 +21,19 @@ export default function createTrayMenu(updates = { brew: [], cask: [] }) {
 }
 
 
-function createUpdatesMenuTemplate(updates = { brew: [], cask: [] }) {
-    const brewItems = updates.brew.map(update => ({
+function createUpdatesMenuTemplate(updates = { brew: [], cask: [], pinned: [] }) {
+    const brewItems = updates.brew.filter(update => !update.isPinned).map(update => ({
         label: `${update.name} (${update.current} -> ${update.available})`,
         click: () => execUpdate({ brew: [update], cask: [] })
     }));
 
-    const caskItems = updates.cask.map(update => ({
+    const caskItems = updates.cask.filter(update => !update.isPinned).map(update => ({
         label: `${update.name} (${update.current} -> ${update.available})`,
         click: () => execUpdate({ brew: [], cask: [update] })
     }));
 
-    const sep = brewItems.length !== 0 && caskItems.length !== 0 ? [{ type: 'separator' }] : [];
-    return brewItems.concat(sep.concat(caskItems));
+    const updateable = brewItems.concat(caskItems);
+
+    const sep = updates.pinned.length !== 0 ? [{ type: 'separator' }] : [];
+    return updateable.concat(sep.concat(updates.pinned));
 }
