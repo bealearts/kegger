@@ -1,5 +1,5 @@
-const execBrew = require('./execBrew');
+import execBrew from './execBrew';
 
-module.exports = function updateBrew() {
+export default function updateBrew() {
     return execBrew('update --quiet');
 }

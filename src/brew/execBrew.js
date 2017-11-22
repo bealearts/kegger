@@ -1,7 +1,7 @@
-const { exec } = require('child_process');
-const log = require('electron-log');
+import { exec } from 'child_process';
+import log from 'electron-log';
 
-module.exports = function execBrew(args) {
+export default function execBrew(args) {
     return new Promise((resolve, reject) => {
         exec(`brew ${args}`, (error, stdout, stderr) => {
             if (error) {
@@ -12,7 +12,7 @@ module.exports = function execBrew(args) {
 
             const result = stdout.split('\n')
                 .filter(line => line !== '');
-            resolve(result);
+            return resolve(result);
         });
     });
 }

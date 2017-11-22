@@ -1,9 +1,9 @@
-const log = require('electron-log');
+import log from 'electron-log';
 
-const updateBrew = require('./updateBrew');
-const listOutdated = require('./listOutdated');
+import updateBrew from './updateBrew';
+import listOutdated from './listOutdated';
 
-module.exports = function checkForUpdates(skipBrewUpdate = false) {
+export default function checkForUpdates(skipBrewUpdate = false) {
     if (skipBrewUpdate) {
         return listOutdated();
     }

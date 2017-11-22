@@ -1,12 +1,11 @@
-const { app } = require('electron');
-const path = require('path');
+import { app, nativeImage } from 'electron';
 
-const createTray = require('./tray/createTray');
-const createTrayMenu = require('./tray/createTrayMenu');
-const createTrayIcon = require('./tray/createTrayIcon');
-const checkForUpdates = require('./brew/checkForUpdates');
+import createTray from'./tray/createTray';
+import createTrayMenu from'./tray/createTrayMenu';
+import createTrayIcon from'./tray/createTrayIcon';
+import checkForUpdates from'./brew/checkForUpdates';
 
-const log = require('electron-log');
+import log from'electron-log';
 log.transports.file.level = 'info';
 
 let tray = null;
@@ -28,6 +27,14 @@ app.on('ready', () => {
         .then(update);
 
     setInterval(update, 60 * 60 * 1000);
+
+    // app.getFileIcon('/Applications/VLC.app', (error, image) => {
+    //     if (error) {
+    //         return log.warn(error);
+    //     }
+
+        // tray.setImage(nativeImage.createFromPath('./vlc.png'));
+    // });
 })
 
 
@@ -37,12 +44,14 @@ app.on('window-all-closed', () => {
 
 process.on('error', log.error);
 
-app.pn('quit', () => {
+app.on('quit', () => {
     log.info('App exited');
 })
 
 app.setAboutPanelOptions({
-    applicationName: 'Kegger - Join the party'
+    applicationName: 'Kegger - Join the party',
+    copyright: 'BealeARTS - David Beale',
+    credits: 'Barrel Icon created by Loren Klein https://thenounproject.com/lorenklein/'
 });
 
 
