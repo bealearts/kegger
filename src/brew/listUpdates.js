@@ -1,7 +1,7 @@
 import execBrew from './execBrew';
 
 export default async function listUpdates() {
-    const pinned = execBrew('list --pinned');
+    const pinned = await execBrew('list --pinned');
     const [brew, cask] = await Promise.all([
         execBrew('outdated --verbose')
             .then(parse(pinned)),
@@ -17,11 +17,10 @@ export default async function listUpdates() {
 
 function parse(pinned) {
     return rows => rows.map(((row) => {
-        const [name, version, nq, available] = row.split(' ');
+        const [name, ...parts] = row.split(' ');
         return {
             name,
-            current: version.substr(1, version.length - 2),
-            available,
+            info: parts.join(' '),
             isPinned: pinned.some(pin => pin === name)
         };
     }));
