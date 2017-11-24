@@ -35,13 +35,16 @@ function getAppPath(appInfo) {
         return true;
     });
 
-    return `/Applications/${name.substr(0, index + 4)}`;
+    return `/Applications/${name.substr(0, index)}.app`;
 }
 
 
 async function getAppIcon(appPath) {
     const info = await readPlist(path.join(appPath, '/Contents/Info.plist'));
-    return icnsToNativeImage(path.join(appPath, '/Contents/Resources/', info.CFBundleIconFile));
+
+    const iconPath = info.CFBundleIconFile.includes('.icns') ? info.CFBundleIconFile : `${info.CFBundleIconFile}.icns`;
+
+    return icnsToNativeImage(path.join(appPath, '/Contents/Resources/', iconPath));
 }
 
 

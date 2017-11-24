@@ -1,4 +1,4 @@
-import { app, Menu, nativeImage } from 'electron';
+import { app, dialog, Menu, nativeImage } from 'electron';
 import path from 'path';
 
 import execUpdate from '../brew/execUpdate';
@@ -52,7 +52,7 @@ async function createUpdatesMenuTemplate(updates = { brew: [], cask: [] }) {
         })));
     const pinndedItems = await await Promise.all(pinned.map(async update => ({
         label: `${update.name} ${update.info}`,
-        click: () => {},
+        click: confirmUpdatePinned(update),
         icon: update.isCask ? await createAppIcon(update.name) : brewIcon
     })));
 
@@ -75,4 +75,18 @@ function createPreferencesMenu() {
             })
         }
     ];
+}
+
+
+function confirmUpdatePinned(update) {
+    return () => {
+        dialog.showMessageBox({
+            type: 'question',
+            title: 'Update Pinned',
+            message: 'Are you sure you want to update pinned item?',
+            detail: `${update.name} ${update.info}`
+        }, () => {
+
+        });
+    };
 }
