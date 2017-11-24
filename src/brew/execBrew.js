@@ -6,7 +6,7 @@ export default function execBrew(args) {
         exec(`brew ${args}`, (error, stdout, stderr) => {
             if (error) {
                 log.error(error);
-                log.error(stderr);
+                log.debug(stderr);
                 return reject(error);
             }
 

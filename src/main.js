@@ -11,7 +11,7 @@ log.transports.file.level = 'info';
 let tray = null;
 let trayIcon = null;
 
-app.dock.hide()
+app.dock.hide();
 
 if (app.makeSingleInstance(() => false)) {
     log.warn('Closing as App already running');
@@ -19,26 +19,30 @@ if (app.makeSingleInstance(() => false)) {
 }
 
 
-app.on('ready', () => {
-    log.info('App running');
-    trayIcon = createTrayIcon();
-    tray = createTray(trayIcon);
-    update(true)
-        .then(update);
+app.on('ready', async () => {
+    try {
+        log.info('App running');
+        trayIcon = createTrayIcon();
+        tray = await createTray(trayIcon);
+        await update(true);
+        update();
 
-    setInterval(update, 60 * 60 * 1000);
-})
+        setInterval(update, 60 * 60 * 1000);
+    } catch (error) {
+        log.error(error);
+    }
+});
 
 
 app.on('window-all-closed', () => {
-    app.quit()
-})
+    app.quit();
+});
 
 process.on('error', log.error);
 
 app.on('quit', () => {
     log.info('App exited');
-})
+});
 
 app.setAboutPanelOptions({
     applicationName: 'Kegger - Join the party',
@@ -47,14 +51,15 @@ app.setAboutPanelOptions({
 });
 
 
-function update(skipBrewUpdate = false) {
-    log.info('Performing update check');
-    return checkForUpdates(skipBrewUpdate)
-        .then(updates => {
-            const count = updates.brew.length + updates.cask.length;
-            trayIcon.setTemplateImage(count === 0);
-            tray.setImage(trayIcon);
-            tray.setContextMenu(createTrayMenu(updates));
-        })
-        .catch(log.error);
+async function update(skipBrewUpdate = false) {
+    try {
+        log.info('Performing update check');
+        const updates = await checkForUpdates(skipBrewUpdate);
+        const count = updates.brew.length + updates.cask.length;
+        trayIcon.setTemplateImage(count === 0);
+        tray.setImage(trayIcon);
+        tray.setContextMenu(await createTrayMenu(updates));
+    } catch (error) {
+        log.error(error);
+    }
 }
