@@ -1,4 +1,4 @@
-import { Menu, nativeImage } from 'electron';
+import { app, Menu, nativeImage } from 'electron';
 import path from 'path';
 
 import execUpdate from '../brew/execUpdate';
@@ -18,7 +18,7 @@ export default async function createTrayMenu(updates = { brew: [], cask: [] }) {
         { label: updateLabel, submenu: updatesMenu, enabled: hasUpdates },
         { label: 'Update All', enabled: hasUpdates, click: () => execUpdate(updates) },
         { type: 'separator' },
-        { label: 'Preferences...' },
+        { label: 'Preferences', submenu: createPreferencesMenu() },
         { label: 'About', role: 'about' },
         { type: 'separator' },
         { label: 'Quit', role: 'quit' }
@@ -58,4 +58,21 @@ async function createUpdatesMenuTemplate(updates = { brew: [], cask: [] }) {
 
     const sep = pinndedItems.length !== 0 ? [{ type: 'separator' }] : [];
     return updateable.concat(sep.concat(pinndedItems));
+}
+
+
+function createPreferencesMenu() {
+    const loginSettings = app.getLoginItemSettings();
+
+    return [
+        {
+            label: 'Start at login',
+            type: 'checkbox',
+            checked: loginSettings.openAtLogin,
+            click: () => app.setLoginItemSettings({
+                openAtLogin: true,
+                openAsHidden: true
+            })
+        }
+    ];
 }
