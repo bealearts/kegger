@@ -84,9 +84,15 @@ function confirmUpdatePinned(update) {
             type: 'question',
             title: 'Update Pinned',
             message: 'Are you sure you want to update pinned item?',
-            detail: `${update.name} ${update.info}`
-        }, () => {
-
+            detail: `${update.name} ${update.info}`,
+            buttons: ['Update', 'Cancel']
+        }, (response) => {
+            if (response === 1) {
+                execUpdate({
+                    brew: !update.isCask ? [update] : [],
+                    cask: update.isCask ? [update] : []
+                });
+            }
         });
     };
 }

@@ -2,6 +2,8 @@ import { nativeImage } from 'electron';
 import path from 'path';
 import plist from 'simple-plist';
 import { exec } from 'child_process';
+import temp from 'temp';
+import fs from 'fs-extra';
 
 import getAppInfo from '../brew/getAppInfo';
 
@@ -49,12 +51,15 @@ async function getAppIcon(appPath) {
 
 
 const icnsToNativeImage = filePath => new Promise((resolve, reject) => {
-    exec(`sips -s format png -Z 16 ${filePath} --out ./temp.png`, (error) => {
+    const tempPng = temp.path({ prefix: 'kegger', suffix: '.png' });
+    exec(`sips -s format png -Z 16 ${filePath} --out ${tempPng}`, (error) => {
         if (error) {
             return reject(error);
         }
 
-        return resolve(nativeImage.createFromPath('./temp.png'));
+        const icon = resolve(nativeImage.createFromPath(tempPng));
+        fs.unlink(tempPng);
+        return icon;
     });
 });
 
