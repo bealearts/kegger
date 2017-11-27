@@ -85,7 +85,7 @@ function confirmUpdatePinned(update) {
             title: 'Update Pinned',
             message: 'Are you sure you want to update pinned item?',
             detail: `${update.name} ${update.info}`,
-            buttons: ['Update', 'Cancel']
+            buttons: ['Cancel', 'Update']
         }, (response) => {
             if (response === 1) {
                 execUpdate({
