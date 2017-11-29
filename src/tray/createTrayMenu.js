@@ -69,9 +69,9 @@ function createPreferencesMenu() {
             label: 'Start at login',
             type: 'checkbox',
             checked: loginSettings.openAtLogin,
-            click: () => app.setLoginItemSettings({
-                openAtLogin: true,
-                openAsHidden: true
+            click: menuItem => app.setLoginItemSettings({
+                openAtLogin: menuItem.checked,
+                openAsHidden: menuItem.checked
             })
         }
     ];
