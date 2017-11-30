@@ -5,7 +5,8 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager-compile ./ --platform=darwin --arch=x64 --out=dist --icon=./src/assets/keg.icns --overwrite --electron-version=1.7.9"
+    "build": "electron-packager-compile ./ --platform=darwin --arch=x64 --out=dist --icon=./src/assets/keg.icns --overwrite --electron-version=1.7.9",
+    "package": "electron-installer-dmg ./dist/kegger-darwin-x64/kegger.app Kegger --out=./dist --icon=./src/assets/keg.icns --overwrite"
   },
   "keywords": [
     "homebrew",
@@ -16,6 +17,7 @@
   "license": "MIT",
   "devDependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "electron-installer-dmg": "^0.2.1",
     "electron-packager": "^9.1.0",
     "eslint": "^4.9.0",
     "eslint-config-airbnb-base": "^12.1.0",
