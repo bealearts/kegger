@@ -1,4 +1,4 @@
-import { nativeImage } from 'electron';
+import { app, nativeImage } from 'electron';
 import path from 'path';
 import plist from 'simple-plist';
 import { exec } from 'child_process';
@@ -7,17 +7,13 @@ import fs from 'fs-extra';
 
 import getAppInfo from '../brew/getAppInfo';
 
-const assetsDirectory = path.join(__dirname, '../assets');
-const brewIcon = nativeImage.createFromPath(path.join(assetsDirectory, 'kegTemplate.png'));
-
-
 export default async function createAppIcon(appName) {
     try {
         const appInfo = await getAppInfo(appName);
         const appPath = getAppPath(appInfo);
         return getAppIcon(appPath);
     } catch (error) {
-        return brewIcon;
+        return null;
     }
 }
 

@@ -1,7 +1,7 @@
 {
   "name": "kegger",
   "version": "0.0.0",
-  "description": "Homebrew update tray icon",
+  "description": "Homebrew update notification tray icon",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
@@ -13,8 +13,15 @@
     "osx",
     "brew"
   ],
-  "author": "David Beale",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bealearts/kegger.git"
+  },
   "license": "MIT",
+  "author": {
+    "name": "David Beale",
+    "url": "http://bealearts.co.uk/"
+  },
   "devDependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "electron-installer-dmg": "^0.2.1",

@@ -1,11 +1,8 @@
-import { app, dialog, Menu, nativeImage } from 'electron';
-import path from 'path';
+import { dialog, Menu, nativeImage } from 'electron';
 
 import execUpdate from '../brew/execUpdate';
 import createAppIcon from './createAppIcon';
-
-const assetsDirectory = path.join(__dirname, '../assets');
-const brewIcon = nativeImage.createFromPath(path.join(assetsDirectory, 'kegTemplate.png'));
+import createPreferencesMenu from './createPreferencesMenu';
 
 export default async function createTrayMenu(updates = { brew: [], cask: [] }) {
     const count = updates.brew.filter(update => !update.isPinned).length
@@ -32,8 +29,7 @@ async function createUpdatesMenuTemplate(updates = { brew: [], cask: [] }) {
     const brewUpdates = updates.brew.filter(update => !update.isPinned);
     const brewItems = await Promise.all(brewUpdates.map(async update => ({
         label: `${update.name} ${update.info}`,
-        click: () => execUpdate({ brew: [update], cask: [] }),
-        icon: brewIcon
+        click: () => execUpdate({ brew: [update], cask: [] })
     })));
 
     const caskUpdates = updates.cask.filter(update => !update.isPinned);
@@ -53,28 +49,11 @@ async function createUpdatesMenuTemplate(updates = { brew: [], cask: [] }) {
     const pinndedItems = await await Promise.all(pinned.map(async update => ({
         label: `${update.name} ${update.info}`,
         click: confirmUpdatePinned(update),
-        icon: update.isCask ? await createAppIcon(update.name) : brewIcon
+        icon: update.isCask ? await createAppIcon(update.name) : null
     })));
 
     const sep = pinndedItems.length !== 0 ? [{ type: 'separator' }] : [];
     return updateable.concat(sep.concat(pinndedItems));
-}
-
-
-function createPreferencesMenu() {
-    const loginSettings = app.getLoginItemSettings();
-
-    return [
-        {
-            label: 'Start at login',
-            type: 'checkbox',
-            checked: loginSettings.openAtLogin,
-            click: menuItem => app.setLoginItemSettings({
-                openAtLogin: menuItem.checked,
-                openAsHidden: menuItem.checked
-            })
-        }
-    ];
 }
 
 

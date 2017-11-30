@@ -1,11 +1,11 @@
-import { app, nativeImage } from 'electron';
+import { app } from 'electron';
+import log from 'electron-log';
 
-import createTray from'./tray/createTray';
-import createTrayMenu from'./tray/createTrayMenu';
-import createTrayIcon from'./tray/createTrayIcon';
-import checkForUpdates from'./brew/checkForUpdates';
+import createTray from './tray/createTray';
+import createTrayMenu from './tray/createTrayMenu';
+import createTrayIcon from './tray/createTrayIcon';
+import checkForUpdates from './brew/checkForUpdates';
 
-import log from'electron-log';
 log.transports.file.level = 'info';
 
 let tray = null;
