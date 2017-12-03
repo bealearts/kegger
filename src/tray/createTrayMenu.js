@@ -1,12 +1,12 @@
 import { dialog, Menu, nativeImage } from 'electron';
 
 import execUpdate from '../brew/execUpdate';
+import updateableCount from '../brew/updateableCount';
 import createAppIcon from './createAppIcon';
 import createPreferencesMenu from './createPreferencesMenu';
 
 export default async function createTrayMenu(updates = { brew: [], cask: [] }) {
-    const count = updates.brew.filter(update => !update.isPinned).length
-        + updates.cask.filter(update => !update.isPinned).length;
+    const count = updateableCount(updates);
     const hasUpdates = count !== 0;
     const updatesMenu = hasUpdates ? await createUpdatesMenuTemplate(updates) : null;
     const updateLabel = `${count} Update${count === 0 || count > 1 ? 's' : ''} Available`;
