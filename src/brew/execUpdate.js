@@ -4,8 +4,6 @@ import fs from 'fs-extra';
 import log from 'electron-log';
 import temp from 'temp';
 
-import checkForUpdates from './checkForUpdates';
-
 const updateScript = path.join(__dirname, '../bin/update.sh');
 
 export default async function execUpdate(updates) {
@@ -19,15 +17,12 @@ export default async function execUpdate(updates) {
     await fs.copy(updateScript, tempScript);
     await fs.writeFile(tempScript, createScript(updateable, tempScript));
 
-    exec(`open -b com.apple.terminal ${tempScript} -F`, (error, stdout, stderr) => {
+    exec(`open -b com.apple.terminal ${tempScript}`, (error, stdout, stderr) => {
         if (error) {
             log.error(error);
             log.error(stderr);
             throw new Error(error);
         }
-
-        log.info('Executed Update');
-        checkForUpdates();
     });
 }
 
@@ -36,6 +31,7 @@ echo Kegger - Join the party
 echo
 ${brew.length !== 0 ? `brew upgrade ${brew.map(update => update.name).join(' ')}` : ''}
 ${cask.length !== 0 ? `brew cask install --force ${cask.map(update => update.name).join(' ')}` : ''}
+kill -SIGUSR2 ${process.pid} > /dev/null 2>&1
 echo
 echo Updated Finished - There may be Errors or further instructions listed above
 read -n 1 -s -r -p "Press any key to close"

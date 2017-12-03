@@ -2,9 +2,8 @@ import { app } from 'electron';
 import log from 'electron-log';
 
 import createTray from './tray/createTray';
-import createTrayMenu from './tray/createTrayMenu';
 import createTrayIcon from './tray/createTrayIcon';
-import checkForUpdates from './brew/checkForUpdates';
+import updateTray from './tray/updateTray';
 
 log.transports.file.level = 'info';
 
@@ -24,10 +23,10 @@ app.on('ready', async () => {
         log.info('App running');
         trayIcon = createTrayIcon();
         tray = await createTray(trayIcon);
-        await update(true);
-        update();
+        await updateTray(tray, trayIcon, true);
+        updateTray(tray, trayIcon);
 
-        setInterval(update, 60 * 60 * 1000);
+        setInterval(() => updateTray(tray, trayIcon), 60 * 60 * 1000);
     } catch (error) {
         log.error(error);
     }
@@ -38,7 +37,13 @@ app.on('window-all-closed', () => {
     app.quit();
 });
 
-process.on('error', log.error);
+
+process.on('uncaughtException', log.error);
+
+process.on('unhandledRejection', log.error);
+
+process.on('SIGUSR2', () => updateTray(tray, trayIcon));
+
 
 app.on('quit', () => {
     log.info('App exited');
@@ -49,17 +54,3 @@ app.setAboutPanelOptions({
     copyright: 'BealeARTS - David Beale',
     credits: 'Barrel Icon created by Loren Klein https://thenounproject.com/lorenklein/'
 });
-
-
-async function update(skipBrewUpdate = false) {
-    try {
-        log.info('Performing update check');
-        const updates = await checkForUpdates(skipBrewUpdate);
-        const count = updates.brew.length + updates.cask.length;
-        trayIcon.setTemplateImage(count === 0);
-        tray.setImage(trayIcon);
-        tray.setContextMenu(await createTrayMenu(updates));
-    } catch (error) {
-        log.error(error);
-    }
-}
