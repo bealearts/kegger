@@ -1,0 +1,29 @@
+osx_image: xcode8.3
+
+sudo: false
+
+language: node_js
+node_js: "8"
+
+env:
+  global:
+    - ELECTRON_CACHE=$HOME/.cache/electron
+    - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+
+os:
+  - osx
+
+cache:
+  directories:
+  - node_modules
+  - $HOME/.cache/electron
+  - $HOME/.cache/electron-builder
+  - $HOME/.npm/_prebuilds
+
+deploy:
+  - provider: releases
+    api_key:
+      secure: oxOazztBffPekKiZUmy9sDfzzBIw+m0DW3AgiDd0SyRkqts6CSee5cJb6N4eoDlQbiPPQS6v9VNVlkiZ2HM3EEWeUuY7uNH9/WXwxi0kJli5CUeGfIAUsKOXjUPu0qW0y+fH1Lv+FfbUcUdN52v8BNWY8pLXad7ZUW9lAoHEuboRk16C7WfX31K8PzfOb9RM53Ge+FXSwUI9wmrdvszPqNS3v7a0T2DogjvrUeASvYDSSjh2biiEox84DX/YNG4sS8Z5De8czV1FQbVLTyd1m8YcKNYT/k1cCRSaOG7rQY/UZGEFrHuSf6ZQPpc+ENqIMecKO7T5KwuGSM0hRUR5McKPGeVTyn1xq6Gw13GD+ekVCjWamt8LePhFJb3+6hZEUHApd1izCJiS9l0LmDzrqe9v7X2yNR46F2UR0QIbRsn1w/XxGZrR6Tk2mlhMHaeZBwFI8sP0hbOIfAp7jlYN3m+7qvrGqLUJpr/Zo9saPpCQJ5CBvsAYex/ij1AyUKGCpU/BBHUQsoDOn8gAPp8i9b3/CNy3Iakp06/tqXshQAStIoEbo9IfkFg3vTTclkr4sLy9zqYexcbvB8rmHmB0+bTfuX8PwcVJMRWVmI5UpTRPHVfiyWR5f4M94OD1WHPk7pLDFrol85UMQutsE08bB+0e2zT1eeFwdLAkcRy8Ysw=
+    on:
+      tags: true
+      repo: bealearts/kegger
