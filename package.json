@@ -6,7 +6,8 @@
   "scripts": {
     "start": "electron .",
     "build": "electron-packager-compile ./ --platform=darwin --arch=x64 --out=dist --icon=./src/assets/keg.icns --overwrite --electron-version=1.7.9",
-    "package": "electron-installer-dmg ./dist/kegger-darwin-x64/kegger.app Kegger --out=./dist --icon=./src/assets/keg.icns --overwrite"
+    "package": "electron-installer-dmg ./dist/kegger-darwin-x64/kegger.app Kegger --out=./dist --icon=./src/assets/keg.icns --overwrite",
+    "test": "npm run build && npm run package"
   },
   "keywords": [
     "homebrew",
