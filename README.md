@@ -4,7 +4,7 @@
 
 ## About
 
-MacOS/OSX tray Icon which gives a visual indication when you have available updates for Homebrew and Homebrew Cask packages.
+MacOS/OSX status icon which gives a visual indication when you have available updates for [Homebrew](https://brew.sh/) and [Homebrew Cask](https://caskroom.github.io/) packages.
 
 ## Install
 
