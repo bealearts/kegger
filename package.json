@@ -1,6 +1,6 @@
 {
   "name": "kegger",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Homebrew update notification status icon",
   "main": "src/main.js",
   "scripts": {
