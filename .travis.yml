@@ -1,29 +1,22 @@
 osx_image: xcode8.3
-
 sudo: false
-
 language: node_js
-node_js: "8"
-
+node_js: '8'
 env:
   global:
-    - ELECTRON_CACHE=$HOME/.cache/electron
-
+  - ELECTRON_CACHE=$HOME/.cache/electron
 os:
-  - osx
-
+- osx
 cache:
   directories:
   - node_modules
-  - $HOME/.cache/electron
-  - $HOME/.npm/_prebuilds
-
+  - "$HOME/.cache/electron"
+  - "$HOME/.npm/_prebuilds"
 deploy:
   provider: releases
   api_key:
-    secure: oxOazztBffPekKiZUmy9sDfzzBIw+m0DW3AgiDd0SyRkqts6CSee5cJb6N4eoDlQbiPPQS6v9VNVlkiZ2HM3EEWeUuY7uNH9/WXwxi0kJli5CUeGfIAUsKOXjUPu0qW0y+fH1Lv+FfbUcUdN52v8BNWY8pLXad7ZUW9lAoHEuboRk16C7WfX31K8PzfOb9RM53Ge+FXSwUI9wmrdvszPqNS3v7a0T2DogjvrUeASvYDSSjh2biiEox84DX/YNG4sS8Z5De8czV1FQbVLTyd1m8YcKNYT/k1cCRSaOG7rQY/UZGEFrHuSf6ZQPpc+ENqIMecKO7T5KwuGSM0hRUR5McKPGeVTyn1xq6Gw13GD+ekVCjWamt8LePhFJb3+6hZEUHApd1izCJiS9l0LmDzrqe9v7X2yNR46F2UR0QIbRsn1w/XxGZrR6Tk2mlhMHaeZBwFI8sP0hbOIfAp7jlYN3m+7qvrGqLUJpr/Zo9saPpCQJ5CBvsAYex/ij1AyUKGCpU/BBHUQsoDOn8gAPp8i9b3/CNy3Iakp06/tqXshQAStIoEbo9IfkFg3vTTclkr4sLy9zqYexcbvB8rmHmB0+bTfuX8PwcVJMRWVmI5UpTRPHVfiyWR5f4M94OD1WHPk7pLDFrol85UMQutsE08bB+0e2zT1eeFwdLAkcRy8Ysw=
-  skip_cleanup: true
-  file: ./dist/Kegger.dmg
+    secure: Z1WhEoZrVAWI6gk5/LZPZH5CyQ8e03XWh3xA39E7Jr2z2UP3m9rJz34MC+zTW8lLHGCxTn/YWXViaHVGzXsBQJD41G6jz1Fi9rKLyuBoCks0twZd4UXIE2ZBaYuJmj8oi9wuiYAbRJNkRi2spHPRCHZfhdbEouxSX3k68JMQciyjlANT8+jiI0JMzVS8PVyhD4ZUnLTre9fxontvpHlAPfKLVZLzq3vSRpbpCQQDBGijVbSj4YDYT6nN3IY+nllQt/tIE5WjNr3mIKDmbXxS76dcGC4AUkxOks7j9NmbjX3Rcsf3qm3SIr/J6goye5Si2MAOkwMDQ7YJkJACLXFPdU9zRA2X5F1g+SgSPt2Nt2c5n5a/G6M4kXPGiRPXYuPqPm0RPJ7PSstRUns2mZ/DOP0hHjMrbeQgpFHsszxiSI4CUhN+TyZsWNeW/1AtU4vSpPAkX9GetFr1kgixl0SN7kLJUe0QgJel9451L51y9JnLYyt97Wgb5WNE9mzMQGv2XeMGOWbhQXOgsUY81Y0giMN7Rz0/46LSczxKhztK1PMiE3a3NthdfoCrn9DW0L0dUS5ZqXosHMRq4e0bQzx5jQep3kMEfkCNpbd8CxT1FbZAUNvNrmttWnwTTtibV/ZhZ+AEylhIbZgW115WO9qvCLx0V8LFS303gj/kmiou/8M=
+  file: dist/Kegger.dmg
   on:
     tags: true
     repo: bealearts/kegger
