@@ -9,3 +9,5 @@ MacOS/OSX tray Icon which gives a visual indication when you have available upda
 ## Install
 
 ## Credits
+
+Barrel Icon by Loren Klein from the Noun Project

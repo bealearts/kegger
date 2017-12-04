@@ -52,5 +52,5 @@ app.on('quit', () => {
 app.setAboutPanelOptions({
     applicationName: 'Kegger - Join the party',
     copyright: 'BealeARTS - David Beale',
-    credits: 'Barrel Icon created by Loren Klein https://thenounproject.com/lorenklein/'
+    credits: 'Barrel Icon by Loren Klein from the Noun Project'
 });
