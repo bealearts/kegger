@@ -5,8 +5,8 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager-compile ./ --platform=darwin --arch=x64 --out=dist --icon=./src/assets/keg.icns --overwrite --electron-version=1.7.9",
-    "package": "electron-installer-dmg ./dist/kegger-darwin-x64/kegger.app Kegger --out=./dist --icon=./src/assets/keg.icns --overwrite",
+    "build": "electron-packager-compile ./ Kegger --platform=darwin --arch=x64 --out=dist --icon=./src/assets/keg.icns --overwrite --electron-version=1.7.9",
+    "package": "electron-installer-dmg ./dist/kegger-darwin-x64/Kegger.app Kegger --out=./dist --icon=./src/assets/keg.icns --overwrite",
     "test": "npm run build && npm run package"
   },
   "keywords": [
@@ -33,10 +33,10 @@
   },
   "dependencies": {
     "electron-log": "^2.2.11",
-    "electron-store": "^1.3.0",
+    "electron-prebuilt-compile": "^1.7.9",
+    "fix-path": "^2.1.0",
     "fs-extra": "^4.0.2",
     "simple-plist": "^0.2.1",
-    "temp": "^0.8.3",
-    "electron-prebuilt-compile": "^1.7.9"
+    "temp": "^0.8.3"
   }
 }

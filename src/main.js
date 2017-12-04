@@ -1,5 +1,6 @@
 import { app } from 'electron';
 import log from 'electron-log';
+import fixPath from 'fix-path';
 
 import createTray from './tray/createTray';
 import createTrayIcon from './tray/createTrayIcon';
@@ -11,12 +12,12 @@ let tray = null;
 let trayIcon = null;
 
 app.dock.hide();
+fixPath();
 
 if (app.makeSingleInstance(() => false)) {
     log.warn('Closing as App already running');
     app.quit();
 }
-
 
 app.on('ready', async () => {
     try {
