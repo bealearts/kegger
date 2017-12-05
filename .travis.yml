@@ -12,6 +12,7 @@ cache:
   - node_modules
   - "$HOME/.cache/electron"
   - "$HOME/.npm/_prebuilds"
+  - "$HOME/.electron"
 deploy:
   provider: releases
   api_key:
