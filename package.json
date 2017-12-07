@@ -5,7 +5,7 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager-compile ./ Kegger --platform=darwin --arch=x64 --out=dist --icon=./src/assets/keg.icns extend-info=./src/app.plist --overwrite --electron-version=1.7.9",
+    "build": "modclean -r && electron-packager-compile ./ Kegger --platform=darwin --arch=x64 --out=dist --icon=./src/assets/keg.icns extend-info=./src/app.plist --overwrite --electron-version=1.7.9",
     "package": "electron-installer-dmg ./dist/kegger-darwin-x64/Kegger.app Kegger --out=./dist --icon=./src/assets/keg.icns --overwrite",
     "test": "npm run build && npm run package"
   },
@@ -27,10 +27,11 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "electron-installer-dmg": "^0.2.1",
     "electron-packager": "^9.1.0",
+    "electron-prebuilt-compile": "^1.7.9",
     "eslint": "^4.9.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "electron-prebuilt-compile": "^1.7.9"
+    "modclean": "^2.1.2"
   },
   "dependencies": {
     "electron-log": "^2.2.11",
