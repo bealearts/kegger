@@ -2,6 +2,7 @@ import { dialog, Menu, nativeImage } from 'electron';
 
 import execUpdate from '../brew/execUpdate';
 import updateableCount from '../brew/updateableCount';
+import execCleanup from '../brew/execCleanup';
 import createAppIcon from './createAppIcon';
 import createPreferencesMenu from './createPreferencesMenu';
 
@@ -14,6 +15,7 @@ export default async function createTrayMenu(updates = { brew: [], cask: [] }) {
     const contextMenu = Menu.buildFromTemplate([
         { label: updateLabel, submenu: updatesMenu, enabled: hasUpdates },
         { label: 'Update All', enabled: hasUpdates, click: () => execUpdate(updates) },
+        { label: 'Cleanup', click: execCleanup },
         { type: 'separator' },
         { label: 'Preferences', submenu: createPreferencesMenu() },
         { label: 'About', role: 'about' },
