@@ -8,6 +8,17 @@ MacOS/OSX status icon which gives a visual indication when you have available up
 
 ## Install
 
+### Using Homebrew Cask (Recommended)
+```shell
+brew tap caskroom/cask  # If you need cask
+
+brew cask install kegger
+```
+
+### Manually
+
+Download Kegger.dmg from https://github.com/bealearts/kegger/releases/latest
+
 ## Credits
 
 Barrel Icon by [Loren Klein](https://thenounproject.com/lorenklein/) from the Noun Project
