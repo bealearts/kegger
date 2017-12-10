@@ -4,6 +4,7 @@ import execUpdate from '../brew/execUpdate';
 import updateableCount from '../brew/updateableCount';
 import execCleanup from '../brew/execCleanup';
 import getAppInfo from '../brew/getAppInfo';
+import execBrew from '../brew/execBrew';
 import createAppIcon from './createAppIcon';
 import createPreferencesMenu from './createPreferencesMenu';
 
@@ -81,11 +82,16 @@ function confirmUpdatePinned(update) {
             message: 'Are you sure you want to update pinned item?',
             detail: `${update.name} ${update.info}`,
             buttons: ['Cancel', 'Update']
-        }, (response) => {
+        }, async (response) => {
             if (response === 1) {
+                await execBrew(`unpin ${update.name}`);
+                const updatePin = {
+                    ...update,
+                    isPinned: false
+                };
                 execUpdate({
-                    brew: !update.isCask ? [update] : [],
-                    cask: update.isCask ? [update] : []
+                    brew: !update.isCask ? [updatePin] : [],
+                    cask: update.isCask ? [updatePin] : []
                 });
             }
         });
