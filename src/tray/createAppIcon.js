@@ -7,9 +7,8 @@ import fs from 'fs-extra';
 
 import getAppInfo from '../brew/getAppInfo';
 
-export default async function createAppIcon(appName) {
+export default async function createAppIcon(appInfo) {
     try {
-        const appInfo = await getAppInfo(appName);
         const appPath = getAppPath(appInfo);
         return getAppIcon(appPath);
     } catch (error) {

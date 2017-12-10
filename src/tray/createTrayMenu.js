@@ -3,6 +3,7 @@ import { dialog, Menu, nativeImage } from 'electron';
 import execUpdate from '../brew/execUpdate';
 import updateableCount from '../brew/updateableCount';
 import execCleanup from '../brew/execCleanup';
+import getAppInfo from '../brew/getAppInfo';
 import createAppIcon from './createAppIcon';
 import createPreferencesMenu from './createPreferencesMenu';
 
@@ -35,11 +36,14 @@ async function createUpdatesMenuTemplate(updates = { brew: [], cask: [] }) {
     })));
 
     const caskUpdates = updates.cask.filter(update => !update.isPinned);
-    const caskItems = await Promise.all(caskUpdates.map(async update => ({
-        label: `${update.name} ${update.info}`,
-        click: () => execUpdate({ brew: [], cask: [update] }),
-        icon: await createAppIcon(update.name)
-    })));
+    const caskItems = await Promise.all(caskUpdates.map(async (update) => {
+        const info = await getAppInfo(update.name);
+        return {
+            label: `${info.name} ${update.info}`,
+            click: () => execUpdate({ brew: [], cask: [update] }),
+            icon: await createAppIcon(info)
+        };
+    }));
 
     const updateable = brewItems.concat(caskItems);
 
@@ -48,11 +52,21 @@ async function createUpdatesMenuTemplate(updates = { brew: [], cask: [] }) {
             ...update,
             isCask: true
         })));
-    const pinndedItems = await await Promise.all(pinned.map(async update => ({
-        label: `${update.name} ${update.info}`,
-        click: confirmUpdatePinned(update),
-        icon: update.isCask ? await createAppIcon(update.name) : null
-    })));
+    const pinndedItems = await await Promise.all(pinned.map(async (update) => {
+        let info = {
+            name: update.name
+        };
+
+        if (update.isCask) {
+            info = await getAppInfo(update.name);
+        }
+
+        return {
+            label: `${info.name} ${update.info}`,
+            click: confirmUpdatePinned(update),
+            icon: update.isCask ? await createAppIcon(info) : null
+        };
+    }));
 
     const sep = pinndedItems.length !== 0 ? [{ type: 'separator' }] : [];
     return updateable.concat(sep.concat(pinndedItems));
