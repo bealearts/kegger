@@ -6,6 +6,8 @@
 
 MacOS/OSX status icon which gives a visual indication when you have available updates for [Homebrew](https://brew.sh/) and [Homebrew Cask](https://caskroom.github.io/) packages.
 
+![Demo](docs/demo.gif)
+
 ## Install
 
 ### Using Homebrew Cask (Recommended)
