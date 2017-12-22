@@ -17,7 +17,7 @@ export default async function createTrayMenu(updates = { brew: [], cask: [] }) {
     const contextMenu = Menu.buildFromTemplate([
         { label: updateLabel, submenu: updatesMenu, enabled: hasUpdates },
         { label: 'Update All', enabled: hasUpdates, click: () => execUpdate(updates) },
-        { label: 'Cleanup Celler', click: execCleanup },
+        { label: 'Clean up Celler', click: execCleanup },
         { type: 'separator' },
         { label: 'Preferences', submenu: createPreferencesMenu() },
         { label: 'About', role: 'about' },
