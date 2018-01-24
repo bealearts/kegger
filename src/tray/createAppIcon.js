@@ -5,12 +5,10 @@ import { exec } from 'child_process';
 import temp from 'temp';
 import fs from 'fs-extra';
 
-import getAppInfo from '../brew/getAppInfo';
-
 export default async function createAppIcon(appInfo) {
     try {
         const appPath = getAppPath(appInfo);
-        return getAppIcon(appPath);
+        return await getAppIcon(appPath);
     } catch (error) {
         return null;
     }
