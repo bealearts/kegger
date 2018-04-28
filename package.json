@@ -27,18 +27,18 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "electron-installer-dmg": "^0.2.1",
     "electron-packager": "^9.1.0",
-    "electron-prebuilt-compile": "^1.7.9",
-    "eslint": "^4.9.0",
+    "electron-prebuilt-compile": "^1.8.4",
+    "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-import": "^2.11.0",
     "modclean": "^2.1.2"
   },
   "dependencies": {
-    "electron-log": "^2.2.11",
+    "electron-compile": "^6.4.2",
+    "electron-log": "^2.2.14",
     "fix-path": "^2.1.0",
-    "fs-extra": "^4.0.2",
+    "fs-extra": "^4.0.3",
     "simple-plist": "^0.2.1",
-    "temp": "^0.8.3",
-    "electron-compile": "^6.4.2"
+    "temp": "^0.8.3"
   }
 }
