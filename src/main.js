@@ -1,11 +1,21 @@
 import createTray from './tray/createTray.js';
-// import createTrayIcon from './tray/createTrayIcon';
+import createTrayMenu from './tray/createTrayMenu.js';
 // import updateTray from './tray/updateTray';
 
 try {
 
-  await createTray();
+  const tray = await createTray();
+  tray.onInit(() => {
+    tray.setMenu(createTrayMenu());
+  });
+
+  setInterval(() => updateTray(tray), 60 * 60 * 1000);
 
 } catch (error) {
   console.error(error);
+}
+
+
+function updateTray() {
+  console.log('Update');
 }

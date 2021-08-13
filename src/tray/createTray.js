@@ -1,32 +1,49 @@
 import { readLines } from "https://deno.land/std@0.104.0/io/mod.ts";
 
-import createTrayMenu from './createTrayMenu.js';
-
 const textEncoder = new TextEncoder()
 
 export default async function createTray() {
-  const trayProcess = Deno.run({
-    cmd: ['./bin/tray_darwin'],
-    env: {},
-    stdout: 'piped',
-    stdin: 'piped'
-  });
-
-  const menu = createTrayMenu();
-
-  const msgInterator = readLines(trayProcess.stdout)
-  const ready = await msgInterator.next();
-
-  await sendMsg(trayProcess.stdin, menu);
+  let trayProcess;
+  let onInit;
 
   new Promise(async () => {
-    for await (const msg of msgInterator) {
-      console.log(msg);
-    }
-  });
+    while(true) {
+      console.info('Starting Tray process');
+      trayProcess = Deno.run({
+        cmd: ['./bin/tray_darwin'],
+        env: {},
+        stdout: 'piped',
+        stdin: 'piped'
+      });
 
-  await trayProcess.status();
-  trayProcess.close();
+      const msgInterator = readLines(trayProcess.stdout)
+      await msgInterator.next();
+
+      new Promise(async () => {
+        for await (const msg of msgInterator) {
+          console.log(msg);
+        }
+      });
+
+      if (onInit) {
+        onInit();
+      }
+      
+      await trayProcess.status();
+      trayProcess.close();
+    }
+  })
+
+
+  return {
+    onInit(func) {
+      onInit = func;
+    },
+
+    async setMenu(menu) {
+      return sendMsg(trayProcess.stdin, menu);
+    }
+  }
 }
 
 
