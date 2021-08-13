@@ -1,8 +1,6 @@
-import { nativeImage } from 'electron';
-import path from 'path';
+import { encode } from "https://deno.land/std@0.104.0/encoding/base64.ts"
 
-const assetsDirectory = path.join(__dirname, '../assets');
-
-export default function createTrayIcon() {
-    return nativeImage.createFromPath(path.join(assetsDirectory, 'kegTemplate.png'));
+export default async function createTrayIcon() {
+    const icon = await Deno.readFile('./assets/kegTemplate.png');
+    return encode(icon);
 }
