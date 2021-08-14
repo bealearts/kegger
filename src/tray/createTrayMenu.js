@@ -1,4 +1,4 @@
-import createTrayIcon from './createTrayIcon.js';
+import createTrayIcon from "./createTrayIcon.js";
 
 const icon = await createTrayIcon();
 
@@ -9,17 +9,17 @@ export default function createTrayMenu() {
     items: [
       {
         title: "0 Updates Available",
-        enabled: false
+        enabled: false,
       },
       {
         title: "Update All",
         __id: 2,
-        enabled: false
+        enabled: false,
       },
       {
         title: "Clean up Celler",
         __id: 1,
-        enabled: true
+        enabled: true,
       },
       {
         title: "<SEPARATOR>",
@@ -31,21 +31,21 @@ export default function createTrayMenu() {
           {
             title: "Start at login",
             enabled: true,
-            checked: true
-          }
-        ]
+            checked: true,
+          },
+        ],
       },
       {
         title: "About",
-        enabled: true
+        enabled: true,
       },
       {
         title: "<SEPARATOR>",
       },
       {
         title: "Quit",
-        enabled: true
-      }
-    ]
+        enabled: true,
+      },
+    ],
   };
 }
