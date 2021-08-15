@@ -7,6 +7,7 @@ const textEncoder = new TextEncoder();
 export default function createTray() {
   let trayProcess;
   let onInit;
+  const eventHandlers = new Map();
 
   // deno-fmt-ignore
   backgroundTask(async () => {
@@ -24,7 +25,13 @@ export default function createTray() {
 
       backgroundTask(async () => {
         for await (const msg of msgInterator) {
-          console.log(msg);
+          const { __id: id } = JSON.parse(msg);
+          const onClick = eventHandlers.get(id);
+          if (onClick) {
+            onClick(msg);
+          } else {
+            console.warn('No click handler for __id', id, msg);
+          }
         }
       }).catch(console.error);
 
@@ -43,13 +50,25 @@ export default function createTray() {
     },
 
     async setMenu(menu) {
-      const rawMenu = registerHandlers(menu);
+      eventHandlers.clear();
+      const rawMenu = registerEventHandlers(eventHandlers, menu);
       return await sendMsg(trayProcess.stdin, rawMenu);
     },
   };
 }
 
-function registerHandlers(menu) {
+function registerEventHandlers(eventHandlers, menu) {
+  if (menu.items && menu.items.length !== 0) {
+    return {
+      ...menu,
+      items: menu.items.map(({ onClick, ...item }) => {
+        item.__id = eventHandlers.size + 1;
+        eventHandlers.set(item.__id, onClick);
+        return registerEventHandlers(eventHandlers, item);
+      }),
+    };
+  }
+
   return menu;
 }
 

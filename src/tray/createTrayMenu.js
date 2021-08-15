@@ -45,6 +45,7 @@ export default function createTrayMenu() {
       {
         title: "Quit",
         enabled: true,
+        onClick: () => Deno.exit(),
       },
     ],
   };
