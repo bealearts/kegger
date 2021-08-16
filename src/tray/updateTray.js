@@ -1,6 +1,6 @@
 import checkForUpdates from "../brew/checkForUpdates.js";
 import updateableCount from "../brew/updateableCount.js";
-import createTrayMenu from "./createTrayMenu.js";
+import createDependenciesMenu from "./createDependenciesMenu.js";
 
 export default async function updateTray(
   tray,
@@ -12,7 +12,10 @@ export default async function updateTray(
     const count = updateableCount(updates);
     // trayIcon.setTemplateImage(count === 0);
     // tray.setImage(trayIcon);
-    tray.setMenu(createTrayMenu(updates));
+    await tray.updateDependenciesMenu(updates);
+    await tray.updateMenuItem(102, {
+      enabled: count !== 0,
+    });
   } catch (error) {
     console.error(error);
   }

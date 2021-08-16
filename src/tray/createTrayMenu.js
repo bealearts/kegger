@@ -1,26 +1,20 @@
 import createTrayIcon from "./createTrayIcon.js";
+import createDependenciesMenu from "./createDependenciesMenu.js";
 
 const icon = await createTrayIcon();
 
-export default function createTrayMenu(updates = []) {
-  console.log(updates);
-  const count = updates.length;
+export default function createTrayMenu() {
   return {
     icon: icon,
     tooltip: "Kegger - Join the party",
     items: [
+      createDependenciesMenu([]),
       {
-        title: `${count} Updates Available`,
+        title: "Update All",
         enabled: false,
       },
       {
-        title: "Update All",
-        __id: 2,
-        enabled: count === 0,
-      },
-      {
         title: "Clean up Celler",
-        __id: 1,
         enabled: true,
       },
       {
