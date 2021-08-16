@@ -1,5 +1,6 @@
 import createTrayIcon from "./createTrayIcon.js";
 import createDependenciesMenu from "./createDependenciesMenu.js";
+import execUpdate from "../brew/execUpdate.js";
 
 const icon = await createTrayIcon();
 
@@ -12,6 +13,7 @@ export default function createTrayMenu() {
       {
         title: "Update All",
         enabled: false,
+        onClick: () => execUpdate(),
       },
       {
         title: "Clean up Celler",

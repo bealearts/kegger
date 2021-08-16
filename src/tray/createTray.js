@@ -2,6 +2,8 @@ import { readLines } from "https://deno.land/std@0.104.0/io/mod.ts";
 
 import backgroundTask from "../util/backgroundTask.js";
 import updateableCount from "../brew/updateableCount.js";
+import execUpdate from "../brew/execUpdate.js";
+import updateTray from "./updateTray.js";
 
 const textEncoder = new TextEncoder();
 
@@ -56,17 +58,49 @@ export default function createTray() {
       return await sendMsg(trayProcess.stdin, rawMenu);
     },
 
-    async updateDependenciesMenu(updates) {
+    async updateDependenciesMenu(updates = []) {
       const count = updateableCount(updates);
       await this.updateMenuItem(1, {
         title: `${count} Updates Available`,
         enabled: count !== 0,
       });
-      for (let index = 2; index <= 102; index++) {
-        this.updateMenuItem(index, {
+
+      const items = new Array(100).fill();
+      const unPinned = updates.filter((item) => !item.isPinned);
+      const pinned = updates.filter((item) => item.isPinned);
+
+      await Promise.all(items.map((_, index) => {
+        const update = unPinned[index];
+        if (update) {
+          return this.updateMenuItem(index + 2, {
+            title: `${update.name} ${update.info}`,
+            hidden: false,
+            enabled: true,
+            onClick: async () => {
+              await execUpdate(update.name);
+              await updateTray();
+            },
+          });
+        }
+
+        // TODO: Pinned seperator
+
+        const pinnedUpdate = pinned[index - unPinned.length];
+        if (pinnedUpdate) {
+          return this.updateMenuItem(index + 2, {
+            title: `${update.name} ${update.info}`,
+            hidden: false,
+            enabled: false,
+            onClick: null,
+          });
+        }
+
+        return this.updateMenuItem(index + 2, {
+          title: "",
           hidden: true,
+          onClick: null,
         });
-      }
+      }));
     },
 
     async updateMenuItem(id, change) {
@@ -102,7 +136,6 @@ function registerEventHandlers(eventHandlers, menu) {
 
 async function sendMsg(writer, msg) {
   const json = JSON.stringify(msg);
-  console.log("msg", json);
   const line = textEncoder.encode(json + "\n");
   return await writer.write(line);
 }

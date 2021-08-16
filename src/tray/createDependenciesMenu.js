@@ -7,7 +7,7 @@ export default function createDependenciesMenu() {
     enabled: false,
     items: items.map(() => ({
       title: "",
-      enabled: false,
+      enabled: true,
       hidden: true,
     })),
   };

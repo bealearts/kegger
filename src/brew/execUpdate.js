@@ -1,37 +1,28 @@
-import { exec } from 'child_process';
-import path from 'path';
-import fs from 'fs-extra';
-import log from 'electron-log';
-import temp from 'temp';
+const updateScript = "./bin/update.sh";
 
-const updateScript = path.join(__dirname, '../bin/update.sh');
+const textEncoder = new TextEncoder();
 
-export default async function execUpdate(updates) {
-    const updateable = {
-        brew: updates.brew.filter(update => !update.isPinned),
-        cask: updates.cask.filter(update => !update.isPinned)
-    };
-    log.info('Executing an Update for', updateable);
+export default async function execUpdate(name) {
+  // const tempScript = temp.path({ prefix: "kegger", suffix: ".sh" });
+  // await fs.copy(updateScript, tempScript);
+  // await fs.writeFile(tempScript, createScript(name));
+  const tempScript = "./bin/temp.sh";
+  await Deno.copyFile(updateScript, tempScript);
+  await Deno.writeFile(tempScript, textEncoder.encode(createScript(name)));
 
-    const tempScript = temp.path({ prefix: 'kegger', suffix: '.sh' });
-    await fs.copy(updateScript, tempScript);
-    await fs.writeFile(tempScript, createScript(updateable, tempScript));
+  const terminalProcess = Deno.run({
+    cmd: ["open", "-b", "com.apple.terminal", tempScript],
+    env: {},
+  });
 
-    exec(`open -b com.apple.terminal ${tempScript}`, (error, stdout, stderr) => {
-        if (error) {
-            log.error(error);
-            log.error(stderr);
-            throw new Error(error);
-        }
-    });
+  await terminalProcess.status();
 }
 
-const createScript = ({ brew, cask }, tempScript) => `#!/bin/bash
+const createScript = (name, tempScript) =>
+  `#!/bin/bash
 echo Kegger - Join the party
 echo
-${brew.length !== 0 ? `brew upgrade ${brew.map(update => update.name).join(' ')}` : ''}
-${cask.length !== 0 ? `brew cask install --force ${cask.map(update => update.name).join(' ')}` : ''}
-kill -SIGUSR2 ${process.pid} > /dev/null 2>&1
+brew upgrade ${name ?? ""}
 echo
 echo Updated Finished - There may be Errors or further instructions listed above
 read -n 1 -s -r -p "Press any key to close"
