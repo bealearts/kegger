@@ -7,6 +7,7 @@ const textEncoder = new TextEncoder();
 export default function createTray() {
   let trayProcess;
   let onInit;
+  let initialised = false;
   const eventHandlers = new Map();
 
   // deno-fmt-ignore
@@ -52,7 +53,16 @@ export default function createTray() {
     async setMenu(menu) {
       eventHandlers.clear();
       const rawMenu = registerEventHandlers(eventHandlers, menu);
-      return await sendMsg(trayProcess.stdin, rawMenu);
+      if (initialised) {
+        return await sendMsg(trayProcess.stdin, {
+          type: "update-menu",
+          menu: rawMenu,
+          seq_id: 0,
+        });
+      } else {
+        initialised = true;
+        return await sendMsg(trayProcess.stdin, rawMenu);
+      }
     },
   };
 }
@@ -74,6 +84,7 @@ function registerEventHandlers(eventHandlers, menu) {
 
 async function sendMsg(writer, msg) {
   const json = JSON.stringify(msg);
+  console.log("msg", json);
   const line = textEncoder.encode(json + "\n");
   return await writer.write(line);
 }

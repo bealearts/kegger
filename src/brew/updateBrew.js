@@ -1,5 +1,5 @@
-import execBrew from './execBrew';
+import execBrew from "./execBrew.js";
 
 export default function updateBrew() {
-    return execBrew('update --quiet');
+  return execBrew("update --quiet");
 }

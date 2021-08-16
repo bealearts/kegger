@@ -1,14 +1,17 @@
-import log from 'electron-log';
+import updateBrew from "./updateBrew.js";
+import listUpdates from "./listUpdates.js";
 
-import updateBrew from './updateBrew';
-import listUpdates from './listUpdates';
+export default async function checkForUpdates(skipBrewUpdate = false) {
+  if (skipBrewUpdate) {
+    return listUpdates();
+  }
 
-export default function checkForUpdates(skipBrewUpdate = false) {
-    if (skipBrewUpdate) {
-        return listUpdates();
-    }
+  try {
+    await updateBrew();
+  } catch (error) {
+    console.warn("Could not update Brew - Probably offline");
+    console.warn(error);
+  }
 
-    return updateBrew()
-        .catch(() => log.warn('Could not update Brew - Probably offline'))
-        .then(listUpdates);
+  return await listUpdates();
 }
