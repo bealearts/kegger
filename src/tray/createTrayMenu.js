@@ -1,6 +1,7 @@
 import createTrayIcon from "./createTrayIcon.js";
 import createDependenciesMenu from "./createDependenciesMenu.js";
-import execUpdate from "../brew/execUpdate.js";
+import execUpdate from "~/brew/execUpdate.js";
+import execCleanup from "~/brew/execCleanup.js";
 
 const icon = await createTrayIcon();
 
@@ -18,6 +19,7 @@ export default function createTrayMenu() {
       {
         title: "Clean up Celler",
         enabled: true,
+        onClick: () => execCleanup(),
       },
       {
         title: "<SEPARATOR>",

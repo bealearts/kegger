@@ -1,9 +1,8 @@
-import { readLines } from "https://deno.land/std@0.104.0/io/mod.ts";
+import { readLines } from "io/mod.ts";
 
-import backgroundTask from "../util/backgroundTask.js";
-import updateableCount from "../brew/updateableCount.js";
-import execUpdate from "../brew/execUpdate.js";
-import updateTray from "./updateTray.js";
+import backgroundTask from "~/util/backgroundTask.js";
+import updateableCount from "~/brew/updateableCount.js";
+import execUpdate from "~/brew/execUpdate.js";
 
 const textEncoder = new TextEncoder();
 
@@ -76,10 +75,7 @@ export default function createTray() {
             title: `${update.name} ${update.info}`,
             hidden: false,
             enabled: true,
-            onClick: async () => {
-              await execUpdate(update.name);
-              await updateTray();
-            },
+            onClick: () => execUpdate(update.name),
           });
         }
 

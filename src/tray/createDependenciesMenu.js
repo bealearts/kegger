@@ -1,5 +1,3 @@
-import createTrayIcon from "./createTrayIcon.js";
-
 export default function createDependenciesMenu() {
   const items = new Array(100).fill();
   return {

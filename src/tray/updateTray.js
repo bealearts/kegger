@@ -1,6 +1,5 @@
-import checkForUpdates from "../brew/checkForUpdates.js";
-import updateableCount from "../brew/updateableCount.js";
-import createDependenciesMenu from "./createDependenciesMenu.js";
+import checkForUpdates from "~/brew/checkForUpdates.js";
+import updateableCount from "~/brew/updateableCount.js";
 
 export default async function updateTray(
   tray,

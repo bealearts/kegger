@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "encoding/": "https://deno.land/std@0.104.0/encoding/",
+    "io/": "https://deno.land/std@0.104.0/io/",
+    "~/": "./"
+  }
+}
