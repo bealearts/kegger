@@ -1,8 +1,7 @@
 package tray
 
 import (
-	"fmt"
-
+	. "github.com/bealearts/kegger/logger"
 	"github.com/getlantern/systray"
 )
 
@@ -11,7 +10,7 @@ func CreateTrayMenu() {
 	mClean := systray.AddMenuItem("Clean up Celler", "")
 	go func() {
 		<-mClean.ClickedCh
-		fmt.Println("Clean")
+		Logger.Info("Clean")
 		//dialogs.ShowAboutDialog("About", "Kegger", nil)
 	}()
 
@@ -22,7 +21,7 @@ func CreateTrayMenu() {
 	mAbout := systray.AddMenuItem("About", "")
 	go func() {
 		<-mAbout.ClickedCh
-		fmt.Println("About")
+		Logger.Info("About")
 		//dialogs.ShowAboutDialog("About", "Kegger", nil)
 	}()
 
@@ -31,7 +30,7 @@ func CreateTrayMenu() {
 	mQuit := systray.AddMenuItem("Quit", "")
 	go func() {
 		<-mQuit.ClickedCh
-		fmt.Println("Quit")
+		Logger.Info("Quit")
 		systray.Quit()
 	}()
 }

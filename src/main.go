@@ -1,11 +1,15 @@
 package main
 
 import (
+	. "github.com/bealearts/kegger/logger"
 	"github.com/bealearts/kegger/tray"
 	"github.com/getlantern/systray"
 )
 
 func main() {
+	defer Logger.Sync()
+
+	Logger.Info("Starting")
 	systray.Run(onReady, onExit)
 }
 
@@ -18,5 +22,5 @@ func onReady() {
 }
 
 func onExit() {
-	// clean up here
+	Logger.Info("Stopping")
 }
