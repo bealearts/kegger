@@ -1,8 +1,8 @@
 package main
 
 import (
-	. "github.com/bealearts/kegger/logger"
-	"github.com/bealearts/kegger/tray"
+	. "github.com/bealearts/kegger/internal/logger"
+	"github.com/bealearts/kegger/internal/tray"
 	"github.com/getlantern/systray"
 )
 

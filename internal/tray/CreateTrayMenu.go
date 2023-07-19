@@ -1,7 +1,8 @@
 package tray
 
 import (
-	. "github.com/bealearts/kegger/logger"
+	"github.com/bealearts/kegger/internal/brew"
+	. "github.com/bealearts/kegger/internal/logger"
 	"github.com/getlantern/systray"
 )
 
@@ -11,7 +12,7 @@ func CreateTrayMenu() {
 	go func() {
 		<-mClean.ClickedCh
 		Logger.Info("Clean")
-		//dialogs.ShowAboutDialog("About", "Kegger", nil)
+		brew.ExecCleanup()
 	}()
 
 	systray.AddSeparator()
