@@ -5,6 +5,7 @@ import (
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/driver/desktop"
 	. "github.com/bealearts/kegger/internal/logger"
+	"github.com/fyne-io/terminal"
 )
 
 func main() {
@@ -17,13 +18,21 @@ func main() {
 			desk.SetSystemTrayIcon(icon)
 		}
 
+		w := ap.NewWindow("Clean up Celler")
+		w.Resize(fyne.NewSize(50, 50))
+		term := terminal.New()
+		term.Resize(fyne.NewSize(50, 50))
+		w.SetContent((term))
+
 		m := fyne.NewMenu("Kegger",
 			fyne.NewMenuItem("Clean up Celler", func() {
-				Logger.Info("Hi")
+				w.Show()
+				term.RunLocalShell()
 			}),
 			fyne.NewMenuItemSeparator(),
 			fyne.NewMenuItem("About", func() {
 				Logger.Info("Hi")
+				term.Write([]byte("ls -al\n"))
 			}),
 		)
 		desk.SetSystemTrayMenu(m)
