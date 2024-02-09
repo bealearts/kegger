@@ -4,9 +4,21 @@ import (
 	"github.com/bealearts/kegger/internal/brew"
 	. "github.com/bealearts/kegger/internal/logger"
 	"github.com/getlantern/systray"
+	"github.com/sqweek/dialog"
 )
 
-func CreateTrayMenu() {
+func CreateTrayMenu() (systray.MenuItem, systray.MenuItem) {
+
+	mUpdates := systray.AddMenuItem("0 Updates Available", "")
+	mUpdates.Disable()
+
+	mUpdate := systray.AddMenuItem("Update All", "")
+	mUpdates.Disable()
+	go func() {
+		<-mUpdate.ClickedCh
+		Logger.Info("Update All")
+		//brew.ExecCleanup()
+	}()
 
 	mClean := systray.AddMenuItem("Clean up Celler", "")
 	go func() {
@@ -23,7 +35,8 @@ func CreateTrayMenu() {
 	go func() {
 		<-mAbout.ClickedCh
 		Logger.Info("About")
-		//dialogs.ShowAboutDialog("About", "Kegger", nil)
+		dialog.Message("%s", "Kegger - Join the party").Title("About").Info()
+
 	}()
 
 	systray.AddSeparator()
@@ -34,4 +47,6 @@ func CreateTrayMenu() {
 		Logger.Info("Quit")
 		systray.Quit()
 	}()
+
+	return *mUpdates, *mUpdate
 }

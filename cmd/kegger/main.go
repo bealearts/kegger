@@ -5,11 +5,13 @@ import (
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/driver/desktop"
 	. "github.com/bealearts/kegger/internal/logger"
-	"github.com/fyne-io/terminal"
+	"github.com/sqweek/dialog"
 )
 
 func main() {
 	defer Logger.Sync()
+
+	var menu *fyne.Menu
 
 	ap := app.New()
 
@@ -18,24 +20,29 @@ func main() {
 			desk.SetSystemTrayIcon(icon)
 		}
 
-		w := ap.NewWindow("Clean up Celler")
-		w.Resize(fyne.NewSize(50, 50))
-		term := terminal.New()
-		term.Resize(fyne.NewSize(50, 50))
-		w.SetContent((term))
+		mUpdates := fyne.NewMenuItem("0 Updates", func() {})
+		mUpdates.ChildMenu = fyne.NewMenu("", fyne.NewMenuItem("Test", func() {
 
-		m := fyne.NewMenu("Kegger",
+		}))
+
+		menus := []*fyne.MenuItem{
+			mUpdates,
+
 			fyne.NewMenuItem("Clean up Celler", func() {
-				w.Show()
-				term.RunLocalShell()
+				mUpdates.ChildMenu.Items = []*fyne.MenuItem{fyne.NewMenuItem("Changed", func() {
+
+				})}
+				menu.Refresh()
 			}),
 			fyne.NewMenuItemSeparator(),
 			fyne.NewMenuItem("About", func() {
 				Logger.Info("Hi")
-				term.Write([]byte("ls -al\n"))
+				dialog.Message("%s", "Do you want to continue?").Title("Are you sure?").Info()
 			}),
-		)
-		desk.SetSystemTrayMenu(m)
+		}
+
+		menu = fyne.NewMenu("Kegger", menus...)
+		desk.SetSystemTrayMenu(menu)
 	}
 
 	Logger.Info("Starting")
