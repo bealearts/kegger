@@ -108,9 +108,9 @@ func updateTray() {
 	items := make([]*fyne.MenuItem, count)
 	for index, update := range updates {
 		label := fmt.Sprintf("%v (%v) -> %v", update.Name, strings.Join(update.Installed_Versions, ","), update.Current_Version)
-		//name := update.Name
+		name := update.Name
 		item := fyne.NewMenuItem(label, func() {
-			//brew.ExecUpdate(name)
+			brew.ExecUpdate(name)
 		})
 		items[index] = item
 	}

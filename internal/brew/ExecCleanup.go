@@ -13,6 +13,7 @@ func ExecCleanup() {
 }
 
 const script = `#!/bin/bash
+clear
 echo Kegger - Join the party
 echo
 brew cleanup
