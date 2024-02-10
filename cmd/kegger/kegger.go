@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"fyne.io/fyne/v2"
@@ -48,7 +49,6 @@ func createTrayMenu() (*fyne.Menu, *fyne.MenuItem, *fyne.MenuItem) {
 	var menu *fyne.Menu
 	updatesMenu := fyne.NewMenuItem("0 Updates", func() {})
 	updatesMenu.Disabled = true
-	//updatesMenu.ChildMenu = fyne.NewMenu("", fyne.NewMenuItem("Test", func() {}))
 
 	updateAllMenu := fyne.NewMenuItem("Update All", func() {})
 	updateAllMenu.Disabled = true
@@ -58,9 +58,6 @@ func createTrayMenu() (*fyne.Menu, *fyne.MenuItem, *fyne.MenuItem) {
 		updateAllMenu,
 		fyne.NewMenuItem("Clean up Celler", func() {
 			Logger.Info("Clean up Celler")
-			// updatesMenu.ChildMenu.Items = []*fyne.MenuItem{fyne.NewMenuItem("Changed", func() {
-
-			// })}
 		}),
 		fyne.NewMenuItemSeparator(),
 		// TODO: Prefs
@@ -101,10 +98,13 @@ func updateTray() {
 		updatesMenu.Disabled = false
 	}
 
-	// for _, update := range updates {
-	// 	label := fmt.Sprintf("%v (%v) -> %v", update.Name, strings.Join(update.Installed_Versions, ","), update.Current_Version)
-	// 	menu.AddSubMenuItem(label, "")
-	// }
+	items := make([]*fyne.MenuItem, count)
+	for index, update := range updates {
+		label := fmt.Sprintf("%v (%v) -> %v", update.Name, strings.Join(update.Installed_Versions, ","), update.Current_Version)
+		item := fyne.NewMenuItem(label, func() {})
+		items[index] = item
+	}
+	updatesMenu.ChildMenu = fyne.NewMenu("", items...)
 
 	menu.Refresh()
 }
