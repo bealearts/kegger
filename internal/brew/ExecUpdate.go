@@ -2,6 +2,7 @@ package brew
 
 import (
 	"fmt"
+	"os"
 
 	. "github.com/bealearts/kegger/internal/logger"
 	"github.com/bealearts/kegger/internal/util"
@@ -21,8 +22,8 @@ func createScript(name string) string {
   echo Kegger - Join the party
   echo
   brew upgrade %v
-  #kill -SIGUSR2 ${Deno.pid} > /dev/null 2>&1 # Trigger Refresh
+  kill -SIGUSR2 %v > /dev/null 2>&1 # Trigger Refresh
   echo
   echo Updated Finished - There may be Errors or further instructions listed above
-  read -n 1 -s -r -p "Press any key to close")`, name)
+  read -n 1 -s -r -p "Press any key to close"`, name, os.Getpid())
 }

@@ -2,7 +2,10 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 	"time"
 
 	"fyne.io/fyne/v2"
@@ -36,13 +39,21 @@ func main() {
 	menu, updatesMenu, updateAllMenu = createTrayMenu()
 	desk.SetSystemTrayMenu((menu))
 
+	go updateTray()
+
 	ticker := time.NewTicker(time.Hour)
 	go func() {
 		<-ticker.C
 		updateTray()
 	}()
 
-	go updateTray()
+	// Callback signal from the update script
+	sigs := make(chan os.Signal, 1)
+	signal.Notify(sigs, syscall.SIGUSR2)
+	go func() {
+		<-sigs
+		updateTray()
+	}()
 
 	ap.Run()
 }
