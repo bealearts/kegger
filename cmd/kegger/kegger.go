@@ -15,6 +15,7 @@ import (
 // var icon, icon2x = tray.CreateTrayIcons()
 var menu *fyne.Menu
 var updatesMenu *fyne.MenuItem
+var updateAllMenu *fyne.MenuItem
 
 func main() {
 	defer Logger.Sync()
@@ -26,7 +27,7 @@ func main() {
 			desk.SetSystemTrayIcon(icon)
 		}
 
-		menu, updatesMenu = createTrayMenu()
+		menu, updatesMenu, updateAllMenu = createTrayMenu()
 		desk.SetSystemTrayMenu((menu))
 	}
 
@@ -35,23 +36,26 @@ func main() {
 	ticker := time.NewTicker(time.Hour)
 	go func() {
 		<-ticker.C
-		updateTray(menu, updatesMenu)
+		updateTray()
 	}()
 
-	go updateTray(menu, updatesMenu)
+	go updateTray()
 
 	ap.Run()
 }
 
-func createTrayMenu() (*fyne.Menu, *fyne.MenuItem) {
+func createTrayMenu() (*fyne.Menu, *fyne.MenuItem, *fyne.MenuItem) {
 	var menu *fyne.Menu
 	updatesMenu := fyne.NewMenuItem("0 Updates", func() {})
 	updatesMenu.Disabled = true
 	//updatesMenu.ChildMenu = fyne.NewMenu("", fyne.NewMenuItem("Test", func() {}))
 
+	updateAllMenu := fyne.NewMenuItem("Update All", func() {})
+	updateAllMenu.Disabled = true
+
 	menuItems := []*fyne.MenuItem{
 		updatesMenu,
-
+		updateAllMenu,
 		fyne.NewMenuItem("Clean up Celler", func() {
 			Logger.Info("Clean up Celler")
 			// updatesMenu.ChildMenu.Items = []*fyne.MenuItem{fyne.NewMenuItem("Changed", func() {
@@ -59,6 +63,7 @@ func createTrayMenu() (*fyne.Menu, *fyne.MenuItem) {
 			// })}
 		}),
 		fyne.NewMenuItemSeparator(),
+		// TODO: Prefs
 		fyne.NewMenuItem("About", func() {
 			Logger.Info("About")
 			dialog.Message("%s", "Kegger").Title("About").Info()
@@ -67,10 +72,10 @@ func createTrayMenu() (*fyne.Menu, *fyne.MenuItem) {
 
 	menu = fyne.NewMenu("Kegger", menuItems...)
 
-	return menu, updatesMenu
+	return menu, updatesMenu, updateAllMenu
 }
 
-func updateTray(*fyne.Menu, *fyne.MenuItem) {
+func updateTray() {
 	Logger.Info("Performing update check")
 	updates, err := brew.CheckForUpdates()
 	if err != nil {
@@ -88,11 +93,11 @@ func updateTray(*fyne.Menu, *fyne.MenuItem) {
 
 	if count == 0 {
 		//systray.SetTemplateIcon(icon2x, icon)
-		//updateAllMenu.Disable()
+		updateAllMenu.Disabled = true
 		updatesMenu.Disabled = true
 	} else {
 		//systray.SetIcon(icon2x)
-		//updateAllMenu.Enable()
+		updateAllMenu.Disabled = false
 		updatesMenu.Disabled = false
 	}
 
