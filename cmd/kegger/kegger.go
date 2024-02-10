@@ -13,7 +13,10 @@ import (
 	"github.com/sqweek/dialog"
 )
 
-// var icon, icon2x = tray.CreateTrayIcons()
+var icon, _ = fyne.LoadResourceFromPath("./assets/keg@2x.png")
+var redIcon, _ = fyne.LoadResourceFromPath("./assets/kegTemplate@2x.png")
+
+var desk desktop.App
 var menu *fyne.Menu
 var updatesMenu *fyne.MenuItem
 var updateAllMenu *fyne.MenuItem
@@ -21,18 +24,17 @@ var updateAllMenu *fyne.MenuItem
 func main() {
 	defer Logger.Sync()
 
+	Logger.Info("Starting")
+
 	ap := app.New()
+	desk = ap.(desktop.App)
 
-	if desk, ok := ap.(desktop.App); ok {
-		if icon, err := fyne.LoadResourceFromPath("./assets/kegTemplate@2x.png"); err == nil {
-			desk.SetSystemTrayIcon(icon)
-		}
-
-		menu, updatesMenu, updateAllMenu = createTrayMenu()
-		desk.SetSystemTrayMenu((menu))
+	if icon != nil {
+		desk.SetSystemTrayIcon(icon)
 	}
 
-	Logger.Info("Starting")
+	menu, updatesMenu, updateAllMenu = createTrayMenu()
+	desk.SetSystemTrayMenu((menu))
 
 	ticker := time.NewTicker(time.Hour)
 	go func() {
@@ -89,11 +91,15 @@ func updateTray() {
 	}
 
 	if count == 0 {
-		//systray.SetTemplateIcon(icon2x, icon)
+		if icon != nil {
+			desk.SetSystemTrayIcon(icon)
+		}
 		updateAllMenu.Disabled = true
 		updatesMenu.Disabled = true
 	} else {
-		//systray.SetIcon(icon2x)
+		if icon != nil {
+			desk.SetSystemTrayIcon(redIcon)
+		}
 		updateAllMenu.Disabled = false
 		updatesMenu.Disabled = false
 	}

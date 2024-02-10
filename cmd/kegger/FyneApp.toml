@@ -1,5 +1,5 @@
 Website = "https://example.com"
 
 [Details]
-Icon = "../../assets/kegTemplate.png"
+Icon = "../../assets/kegTemplate@2x.png"
 Name = "Kegger"
