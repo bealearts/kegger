@@ -60,6 +60,7 @@ func createTrayMenu() (*fyne.Menu, *fyne.MenuItem, *fyne.MenuItem) {
 		updateAllMenu,
 		fyne.NewMenuItem("Clean up Celler", func() {
 			Logger.Info("Clean up Celler")
+			brew.ExecCleanup()
 		}),
 		fyne.NewMenuItemSeparator(),
 		// TODO: Prefs
@@ -107,7 +108,10 @@ func updateTray() {
 	items := make([]*fyne.MenuItem, count)
 	for index, update := range updates {
 		label := fmt.Sprintf("%v (%v) -> %v", update.Name, strings.Join(update.Installed_Versions, ","), update.Current_Version)
-		item := fyne.NewMenuItem(label, func() {})
+		//name := update.Name
+		item := fyne.NewMenuItem(label, func() {
+			//brew.ExecUpdate(name)
+		})
 		items[index] = item
 	}
 	updatesMenu.ChildMenu = fyne.NewMenu("", items...)
