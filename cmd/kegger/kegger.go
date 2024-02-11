@@ -16,8 +16,8 @@ import (
 	"github.com/sqweek/dialog"
 )
 
-var icon, _ = fyne.LoadResourceFromPath("./assets/keg@2x.png")
-var redIcon, _ = fyne.LoadResourceFromPath("./assets/kegTemplate@2x.png")
+var icon, _ = fyne.LoadResourceFromPath("./assets/keg.png")
+var redIcon, _ = fyne.LoadResourceFromPath("./assets/kegRed.png")
 
 var desk desktop.App
 var menu *fyne.Menu

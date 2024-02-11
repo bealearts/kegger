@@ -1,5 +1,7 @@
-Website = "https://example.com"
+Website = "https://github.com/bealearts/kegger"
 
 [Details]
-Icon = "../../assets/kegTemplate@2x.png"
-Name = "Kegger"
+  Icon = "../../assets/keg.png"
+  Name = "Kegger"
+  Version = "2.0.0"
+  Build = 5
