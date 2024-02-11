@@ -3,5 +3,6 @@ Website = "https://github.com/bealearts/kegger"
 [Details]
   Icon = "../../assets/keg.png"
   Name = "Kegger"
+  ID = "uk.co.bealearts.kegger"
   Version = "2.0.0"
-  Build = 5
+  Build = 8

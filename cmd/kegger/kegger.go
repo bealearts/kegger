@@ -110,8 +110,6 @@ func updateTray() {
 			if err == nil && len(appInfo.Name) != 0 {
 				// Use App Info Name
 				label = fmt.Sprintf("%v (%v) -> %v", appInfo.Name[0], strings.Join(update.Installed_Versions, ","), update.Current_Version)
-
-				fmt.Printf("%+v\n", appInfo.Artifacts)
 			} else {
 				Logger.Warn(update.Name, " ", err)
 			}

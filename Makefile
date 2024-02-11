@@ -8,5 +8,6 @@ build:
 	go install fyne.io/fyne/v2/cmd/fyne@latest
 	mkdir -p build
 	fyne package -os darwin --src cmd/kegger
-	mv Kegger.app build/Kegger.app
-	ls -alh build
+	mv Kegger.app build
+	mkdir -p build/Kegger.app/Contents/Resources/assets
+	cp assets/*.png build/Kegger.app/Contents/Resources/assets
