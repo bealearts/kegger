@@ -94,13 +94,37 @@ func updateTray() {
 		return
 	}
 
-	fmt.Printf("%+v\n", updates)
 	count := brew.UpdatableCount(updates)
 	if count == 1 {
 		updatesMenu.Label = "1 Update Available"
 	} else {
 		updatesMenu.Label = fmt.Sprintf("%+v Updates Available", count)
 	}
+
+	items := make([]*fyne.MenuItem, count)
+	for index, update := range updates {
+		label := fmt.Sprintf("%v (%v) -> %v", update.Name, strings.Join(update.Installed_Versions, ","), update.Current_Version)
+
+		if update.IsCask {
+			appInfo, err := brew.GetAppInfo(update.Name)
+			if err == nil && len(appInfo.Name) != 0 {
+				// Use App Info Name
+				label = fmt.Sprintf("%v (%v) -> %v", appInfo.Name[0], strings.Join(update.Installed_Versions, ","), update.Current_Version)
+
+				fmt.Printf("%+v\n", appInfo.Artifacts)
+			} else {
+				Logger.Warn(update.Name, " ", err)
+			}
+		}
+
+		name := update.Name
+		item := fyne.NewMenuItem(label, func() {
+			brew.ExecUpdate(name)
+		})
+
+		items[index] = item
+	}
+	updatesMenu.ChildMenu = fyne.NewMenu("", items...)
 
 	if count == 0 {
 		if icon != nil {
@@ -115,17 +139,6 @@ func updateTray() {
 		updateAllMenu.Disabled = false
 		updatesMenu.Disabled = false
 	}
-
-	items := make([]*fyne.MenuItem, count)
-	for index, update := range updates {
-		label := fmt.Sprintf("%v (%v) -> %v", update.Name, strings.Join(update.Installed_Versions, ","), update.Current_Version)
-		name := update.Name
-		item := fyne.NewMenuItem(label, func() {
-			brew.ExecUpdate(name)
-		})
-		items[index] = item
-	}
-	updatesMenu.ChildMenu = fyne.NewMenu("", items...)
 
 	menu.Refresh()
 }

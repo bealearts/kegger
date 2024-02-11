@@ -24,11 +24,10 @@ func CheckForUpdates() ([]Update, error) {
 	}
 
 	var outdated outdatedItems
+	err = json.Unmarshal([]byte(outdatedJSON), &outdated)
 
-	jsonErr := json.Unmarshal([]byte(outdatedJSON), &outdated)
-
-	if jsonErr != nil {
-		return nil, jsonErr
+	if err != nil {
+		return nil, err
 	}
 
 	for index := range outdated.Casks {
