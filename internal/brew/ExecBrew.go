@@ -5,7 +5,7 @@ import (
 )
 
 func ExecBrew(args ...string) (string, error) {
-	cmd := exec.Command("brew", args...)
+	cmd := exec.Command("/usr/local/bin/brew", args...)
 	bytes, err := cmd.Output()
 
 	if err != nil {
