@@ -21,6 +21,17 @@ jobs:
       - name: Build
         run: make all
 
+      - name: Archive amd64
+        uses: actions/upload-artifact@v4
+        with:
+          name: Kegger-amd64.dmg
+          path: build/Kegger-amd64.dmg
+
+      - name: Archive arm64
+        uses: actions/upload-artifact@v4
+        with:
+          name: Kegger-arm64.dmg
+          path: build/Kegger-arm64.dmg
       # - name: Test
       #   run: npm t
 
