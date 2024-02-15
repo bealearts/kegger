@@ -8,6 +8,7 @@ import (
 	"fyne.io/fyne/v2"
 	"github.com/bealearts/kegger/internal/brew"
 	. "github.com/bealearts/kegger/internal/logger"
+	"github.com/bealearts/kegger/internal/tray"
 )
 
 func enrichMenu(updates *[]brew.Update, updatesMenu *fyne.MenuItem, menu *fyne.Menu) {
@@ -35,8 +36,12 @@ func enrichMenu(updates *[]brew.Update, updatesMenu *fyne.MenuItem, menu *fyne.M
 				}
 
 				if len(appInfo.Artifacts) != 0 {
-					fmt.Printf("%+v\n", appInfo.Artifacts)
-					// updatesMenu.ChildMenu.Items[index].Icon =
+					icon, err := tray.CreateAppIcon(appInfo)
+					if err != nil {
+						Logger.Warn(update.Name, " ", err)
+						return
+					}
+					updatesMenu.ChildMenu.Items[index].Icon = icon
 				}
 			}(update, index)
 

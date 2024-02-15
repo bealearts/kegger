@@ -6,6 +6,7 @@ require (
 	fyne.io/fyne/v2 v2.3.6-0.20230704203313-e050d7994adc
 	github.com/sqweek/dialog v0.0.0-20220809060634-e981b270ebbf
 	go.uber.org/zap v1.24.0
+	howett.net/plist v1.0.1
 )
 
 require (
