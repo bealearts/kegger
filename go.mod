@@ -1,6 +1,6 @@
 module github.com/bealearts/kegger
 
-go 1.21
+go 1.22
 
 require (
 	fyne.io/fyne/v2 v2.3.6-0.20230704203313-e050d7994adc
