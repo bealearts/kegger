@@ -4,15 +4,16 @@
 
 ## About
 
-MacOS/OSX status icon which gives a visual indication when you have available updates for [Homebrew](https://brew.sh/) and [Homebrew Cask](https://caskroom.github.io/) packages.
+MacOS/OSX status icon which gives a visual indication when you have available updates for [Homebrew](https://brew.sh/) packages.
 
 ![Demo](docs/demo.gif)
 
 ## Install
 
 ### Using Homebrew Cask (Recommended)
+
 ```shell
-brew tap caskroom/cask  # If you need cask
+brew tap bealearts/tap  # If you need cask
 
 brew cask install kegger
 ```
