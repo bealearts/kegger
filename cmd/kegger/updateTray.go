@@ -3,37 +3,62 @@ package main
 import (
 	"fmt"
 	"strings"
+	"sync"
 
 	"fyne.io/fyne/v2"
 	"github.com/bealearts/kegger/internal/brew"
 	. "github.com/bealearts/kegger/internal/logger"
+	"github.com/sqweek/dialog"
 )
 
+var updateMutex sync.Mutex
+
 func updateTray() {
+	updateMutex.Lock()
+	defer updateMutex.Unlock()
+
 	Logger.Info("Performing update check")
-	updates, err := brew.CheckForUpdates()
+	updates, pinned, err := brew.CheckForUpdates()
 	if err != nil {
 		Logger.Error(err)
 		return
 	}
 
-	count := brew.UpdatableCount(updates)
+	count := len(updates)
 	if count == 1 {
 		updatesMenu.Label = "1 Update Available"
 	} else {
 		updatesMenu.Label = fmt.Sprintf("%+v Updates Available", count)
 	}
 
-	items := make([]*fyne.MenuItem, len(updates))
-	for index, update := range updates {
+	items := make([]*fyne.MenuItem, 0, len(updates)+len(pinned)+1)
+	for _, update := range updates {
 		label := fmt.Sprintf("%v (%v) -> %v", update.Name, strings.Join(update.Installed_Versions, ","), update.Current_Version)
 		name := update.Name
 		item := fyne.NewMenuItem(label, func() {
 			brew.ExecUpdate(name)
 		})
 
-		items[index] = item
+		items = append(items, item)
 	}
+
+	if len(pinned) > 0 {
+		items = append(items, fyne.NewMenuItemSeparator())
+
+		for _, update := range pinned {
+			label := fmt.Sprintf("%v (%v) -> %v [Pinned at %v]", update.Name, strings.Join(update.Installed_Versions, ","), update.Current_Version, update.Pinned_Version)
+			name := update.Name
+			item := fyne.NewMenuItem(label, func() {
+				if dialog.Message("Are you sure you want to update pinned item?\n\n%v", label).Title("Updated Pinned").YesNo() {
+					brew.ExecBrew("unpin", name)
+					brew.ExecUpdate(name)
+				}
+			})
+
+			items = append(items, item)
+		}
+	}
+
 	updatesMenu.ChildMenu = fyne.NewMenu("", items...)
 
 	if count == 0 {
@@ -41,7 +66,11 @@ func updateTray() {
 			desk.SetSystemTrayIcon(icon)
 		}
 		updateAllMenu.Disabled = true
-		updatesMenu.Disabled = true
+		if len(pinned) == 0 {
+			updatesMenu.Disabled = true
+		} else {
+			updatesMenu.Disabled = false
+		}
 	} else {
 		if icon != nil {
 			desk.SetSystemTrayIcon(redIcon)
@@ -52,5 +81,5 @@ func updateTray() {
 
 	menu.Refresh()
 
-	go enrichMenu(&updates, updatesMenu, menu)
+	enrichMenu(updates, pinned, updatesMenu, menu)
 }
