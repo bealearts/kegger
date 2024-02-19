@@ -13,7 +13,7 @@ MacOS/OSX status icon which gives a visual indication when you have available up
 ### Using Homebrew Cask (Recommended)
 
 ```shell
-brew tap bealearts/tap  # If you need cask
+brew tap bealearts/tap
 
 brew cask install kegger
 ```
