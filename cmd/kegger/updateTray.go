@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 	"sync"
 
@@ -30,6 +31,7 @@ func updateTray() {
 	} else {
 		updatesMenu.Label = fmt.Sprintf("%+v Updates Available", count)
 	}
+	Logger.Info(strconv.Itoa(count), " updates found")
 
 	items := make([]*fyne.MenuItem, 0, len(updates)+len(pinned)+1)
 	for _, update := range updates {
