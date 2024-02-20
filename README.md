@@ -1,4 +1,4 @@
-# Kegger - Join the party [![Build Status](https://travis-ci.org/bealearts/kegger.svg?branch=master)](https://travis-ci.org/bealearts/kegger)
+# Kegger - Join the party [![Build Status](https://github.com/bealearts/kegger/actions/workflows/build.yml/badge.svg)](https://github.com/bealearts/kegger/actions/workflows/build.yml)
 
 > [Homebrew](https://brew.sh/) update notification status icon
 
