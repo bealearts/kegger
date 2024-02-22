@@ -29,7 +29,8 @@ func createTrayMenu() (*fyne.Menu, *fyne.MenuItem, *fyne.MenuItem) {
 		// TODO: Prefs
 		fyne.NewMenuItem("About", func() {
 			Logger.Info("About")
-			dialog.Message("%s", "Kegger").Title("About").Info()
+			meta := fyne.CurrentApp().Metadata()
+			dialog.Message("Kegger - Join the party\n\nVersion %s\nBuild %v", meta.Version, meta.Build).Title("About").Info()
 		}),
 	}
 

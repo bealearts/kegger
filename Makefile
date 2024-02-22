@@ -7,10 +7,11 @@ start:
 build:
 	go install fyne.io/fyne/v2/cmd/fyne@latest
 	mkdir -p build
-	fyne package -os darwin --src cmd/kegger --name build/Kegger
+	fyne package -os darwin --src cmd/kegger --name build/Kegger --release
 	mkdir -p build/kegger.app/Contents/MacOS/assets
 	cp assets/*.png build/Kegger.app/Contents/MacOS/assets
 	hdiutil create -volname Kegger -srcfolder build/ -ov -format UDZO build/Kegger.dmg
+	shasum --algorithm 256 build/Kegger.dmg
 
 clean:
 	rm -rf build

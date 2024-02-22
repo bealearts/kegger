@@ -24,6 +24,10 @@ func getAppPath(appInfo *brew.AppInfo) (string, error) {
 		if len(artifact.App) != 0 {
 			return "/Applications/" + artifact.App[0], nil
 		}
+		if len(artifact.Pkg) != 0 {
+			fileName := artifact.Pkg[0]
+			return "/Applications/" + fileName[:len(fileName)-len(filepath.Ext(fileName))] + ".app", nil
+		}
 	}
 
 	return "", errors.New("application path not found")

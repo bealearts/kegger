@@ -1,6 +1,8 @@
 package brew
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 type Artifact struct {
 	App []string
