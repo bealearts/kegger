@@ -22,7 +22,7 @@ var updateAllMenu *fyne.MenuItem
 func main() {
 	defer Logger.Sync()
 
-	Logger.Info("Starting")
+	Logger.Info("Starting Pid:", os.Getpid())
 
 	loadAssets()
 
@@ -38,16 +38,20 @@ func main() {
 
 	ticker := time.NewTicker(time.Hour)
 	go func() {
-		<-ticker.C
-		updateTray()
+		for {
+			<-ticker.C
+			updateTray()
+		}
 	}()
 
 	// Callback signal from the update script
 	sigs := make(chan os.Signal, 1)
 	signal.Notify(sigs, syscall.SIGUSR2)
 	go func() {
-		<-sigs
-		updateTray()
+		for {
+			<-sigs
+			updateTray()
+		}
 	}()
 
 	ap.Lifecycle().SetOnStarted(func() {
