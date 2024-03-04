@@ -8,7 +8,6 @@ import (
 
 	"fyne.io/fyne/v2"
 	"github.com/bealearts/kegger/internal/brew"
-	. "github.com/bealearts/kegger/internal/logger"
 	"github.com/sqweek/dialog"
 )
 
@@ -18,10 +17,10 @@ func updateTray() {
 	updateMutex.Lock()
 	defer updateMutex.Unlock()
 
-	Logger.Info("Performing update check")
+	log.Info("Performing update check")
 	updates, pinned, err := brew.CheckForUpdates()
 	if err != nil {
-		Logger.Error(err)
+		log.Error(err)
 		return
 	}
 
@@ -31,7 +30,7 @@ func updateTray() {
 	} else {
 		updatesMenu.Label = fmt.Sprintf("%+v Updates Available", count)
 	}
-	Logger.Info(strconv.Itoa(count), " updates found")
+	log.Info(strconv.Itoa(count), " updates found")
 
 	items := make([]*fyne.MenuItem, 0, len(updates)+len(pinned)+1)
 	for _, update := range updates {

@@ -1,14 +1,16 @@
 package brew
 
 import (
-	. "github.com/bealearts/kegger/internal/logger"
+	"github.com/bealearts/kegger/internal/logger"
 	"github.com/bealearts/kegger/internal/util"
 )
+
+var log = logger.Default()
 
 func ExecCleanup() {
 	err := util.ExecTerminalScript(script)
 	if err != nil {
-		Logger.Error(err)
+		log.Error(err)
 	}
 }
 

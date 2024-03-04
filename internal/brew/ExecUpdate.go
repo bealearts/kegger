@@ -4,15 +4,14 @@ import (
 	"fmt"
 	"os"
 
-	. "github.com/bealearts/kegger/internal/logger"
 	"github.com/bealearts/kegger/internal/util"
 )
 
 func ExecUpdate(name string) {
-	Logger.Info("Executing an Update")
+	log.Info("Executing an Update")
 	err := util.ExecTerminalScript(createScript(name))
 	if err != nil {
-		Logger.Error(err)
+		log.Error(err)
 	}
 }
 

@@ -7,12 +7,11 @@ import (
 
 	"fyne.io/fyne/v2"
 	"github.com/bealearts/kegger/internal/brew"
-	. "github.com/bealearts/kegger/internal/logger"
 	"github.com/bealearts/kegger/internal/tray"
 )
 
 func enrichMenu(updates []*brew.Update, pinned []*brew.Update, updatesMenu *fyne.MenuItem, menu *fyne.Menu) {
-	Logger.Info("Enriching Updates Menu")
+	log.Info("Enriching Updates Menu")
 
 	var wg sync.WaitGroup
 
@@ -43,7 +42,7 @@ func enrich(wg *sync.WaitGroup, update brew.Update, index int) {
 
 	appInfo, err := brew.GetAppInfo(update.Name)
 	if err != nil {
-		Logger.Warn(update.Name, " ", err)
+		log.Warn(update.Name, " ", err)
 		return
 	}
 
@@ -55,7 +54,7 @@ func enrich(wg *sync.WaitGroup, update brew.Update, index int) {
 	if len(appInfo.Artifacts) != 0 {
 		icon, err := tray.CreateAppIcon(appInfo)
 		if err != nil {
-			Logger.Warn(update.Name, " ", err)
+			log.Warn(update.Name, " ", err)
 			return
 		}
 		updatesMenu.ChildMenu.Items[index].Icon = icon

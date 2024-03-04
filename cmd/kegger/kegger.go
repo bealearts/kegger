@@ -9,7 +9,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/driver/desktop"
-	. "github.com/bealearts/kegger/internal/logger"
+	"github.com/bealearts/kegger/internal/logger"
 )
 
 var icon fyne.Resource
@@ -19,10 +19,12 @@ var menu *fyne.Menu
 var updatesMenu *fyne.MenuItem
 var updateAllMenu *fyne.MenuItem
 
-func main() {
-	defer Logger.Sync()
+var log = logger.Default()
 
-	Logger.Info("Starting Pid:", os.Getpid())
+func main() {
+	defer log.Sync()
+
+	log.Info("Starting Pid:", os.Getpid())
 
 	loadAssets()
 
