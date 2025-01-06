@@ -31,5 +31,9 @@ func GetAppInfo(name string) (*AppInfo, error) {
 		return nil, err
 	}
 
+	if len(appInfo.Casks) == 0 {
+		return &AppInfo{}, nil
+	}
+
 	return &appInfo.Casks[0], nil
 }

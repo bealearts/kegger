@@ -22,6 +22,16 @@ brew cask install kegger
 
 Download Kegger.dmg from https://github.com/bealearts/kegger/releases/latest
 
+## Development
+
+```shell
+make start
+```
+
+```shell
+make build
+```
+
 ## Credits
 
 Barrel Icon by [Loren Klein](https://thenounproject.com/lorenklein/) from the Noun Project
