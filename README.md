@@ -43,6 +43,9 @@ make update
 ## Release
 
 Create a versioned Git tag and push to C.I.
+```shell
+git tag v2.0.2
+```
 
 ## Credits
 
