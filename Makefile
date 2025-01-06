@@ -21,4 +21,4 @@ update:
 	go get -u ./...
 	go mod tidy
 
-all: clean build
+cleanBuild: clean build

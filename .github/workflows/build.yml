@@ -30,7 +30,7 @@ jobs:
       #   run: npm t
 
       - name: Build
-        run: make all
+        run: CGO_ENABLED=1 GOARCH=${{ matrix.arch }} make build
 
       - name: Upload Package
         uses: actions/upload-artifact@v4
