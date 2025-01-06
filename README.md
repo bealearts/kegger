@@ -22,6 +22,7 @@ brew cask install kegger
 
 Download Kegger.dmg from https://github.com/bealearts/kegger/releases/latest
 
+
 ## Development
 
 ### Local Dev
@@ -38,6 +39,10 @@ make build
 ```shell
 make update
 ```
+
+## Release
+
+Create a versioned Git tag and push to C.I.
 
 ## Credits
 
