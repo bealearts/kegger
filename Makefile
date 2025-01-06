@@ -17,4 +17,8 @@ build:
 clean:
 	rm -rf build
 
+update:
+	go get -u ./...
+	go mod tidy
+
 all: clean build

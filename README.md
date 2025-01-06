@@ -24,12 +24,19 @@ Download Kegger.dmg from https://github.com/bealearts/kegger/releases/latest
 
 ## Development
 
+### Local Dev
 ```shell
 make start
 ```
 
+### Build
 ```shell
 make build
+```
+
+### Update Dependencies
+```shell
+make update
 ```
 
 ## Credits
