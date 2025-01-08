@@ -8,6 +8,7 @@ import (
 
 	"fyne.io/fyne/v2"
 	"github.com/bealearts/kegger/internal/brew"
+	"github.com/bealearts/kegger/internal/util"
 	"github.com/sqweek/dialog"
 )
 
@@ -74,7 +75,13 @@ func updateTray() {
 		}
 	} else {
 		if icon != nil {
-			desk.SetSystemTrayIcon(redIcon)
+			iconWithCount, err := util.CreateImageWithCounter(redIcon, count)
+			if err != nil {
+				log.Error(err)
+				desk.SetSystemTrayIcon(redIcon)
+			} else {
+				desk.SetSystemTrayIcon(iconWithCount)
+			}
 		}
 		updateAllMenu.Disabled = false
 		updatesMenu.Disabled = false
