@@ -4,8 +4,10 @@ go 1.23
 
 require (
 	fyne.io/fyne/v2 v2.5.3
+	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
 	github.com/sqweek/dialog v0.0.0-20240226140203-065105509627
 	go.uber.org/zap v1.27.0
+	golang.org/x/image v0.23.0
 	howett.net/plist v1.0.1
 )
 
@@ -35,7 +37,6 @@ require (
 	github.com/stretchr/testify v1.10.0 // indirect
 	github.com/yuin/goldmark v1.7.8 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	golang.org/x/image v0.23.0 // indirect
 	golang.org/x/mobile v0.0.0-20250103163954-5e5de4c85663 // indirect
 	golang.org/x/net v0.33.0 // indirect
 	golang.org/x/sys v0.29.0 // indirect
