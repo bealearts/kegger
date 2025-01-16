@@ -44,7 +44,7 @@ make update
 
 Create a versioned Git tag and push to C.I.
 ```shell
-git tag v2.0.2
+make version value=x.y.z
 git push --tags
 ```
 

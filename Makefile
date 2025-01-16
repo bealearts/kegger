@@ -1,4 +1,4 @@
-.PHONY: start build clean all
+.PHONY: start build clean update cleanBuild version
 
 start:
 	go install github.com/bokwoon95/wgo@latest
@@ -22,3 +22,10 @@ update:
 	go mod tidy
 
 cleanBuild: clean build
+
+version:
+	go install github.com/MinseokOh/toml-cli@latest
+	toml-cli set cmd/kegger/FyneApp.toml Details.Version $(value)
+	git add cmd/kegger/FyneApp.toml
+	git commit -m "v${value}"
+	git tag "v${value}"
